@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container glass-card fade-in">
+        <div class="auth-header">
+            <h1>Join TruthGuard</h1>
+            <p>Create an account to report scams and track threats</p>
+        </div>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                <label class="form-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<p class="form-error">{{ field.errors.0 }}</p>{% endif %}
+                {% if field.help_text %}<p class="form-hint">{{ field.help_text }}</p>{% endif %}
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary btn-full ripple">Create Account</button>
+        </form>
+        <div class="auth-links">
+            <a href="{% url 'login' %}">Already have an account?</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

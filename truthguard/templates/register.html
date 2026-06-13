@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - TruthGuard{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+    <div class="auth-background">
+        <div class="cyber-grid"></div>
+        <div class="particles"></div>
+    </div>
+
+    <div class="auth-container reverse">
+        <!-- Left Column - Registration Form -->
+        <div class="auth-form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Join TruthGuard today</p>
+                </div>
+
+                <form class="auth-form" id="registerForm">
+                    <!-- Full Name Field -->
+                    <div class="form-group">
+                        <label for="fullName" class="form-label">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="fullName" 
+                            name="full_name" 
+                            class="form-input"
+                            placeholder="John Doe"
+                            required
+                        >
+                        <span class="form-error" style="display: none;"></span>
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                        >
+                        <span class="form-hint">We'll use this to verify your account</span>
+                        <span class="form-error" style="display: none;"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                            >
+                            <button type="button" class="toggle-password" title="Show password">👁️</button>
+                        </div>
+                        <span class="form-hint">At least 8 characters with mixed case and numbers</span>
+                        
+                        <!-- Password Strength Indicator -->
+                        <div class="password-strength" id="strengthIndicator">
+                            <div class="strength-bars">
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                                <div class="strength-bar"></div>
+                            </div>
+                            <span class="strength-text">Weak</span>
+                        </div>
+                        <span class="form-error" style="display: none;"></span>
+                    </div>
+
+                    <!-- Confirm Password Field -->
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                name="confirm_password" 
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                            >
+                            <button type="button" class="toggle-password" title="Show password">👁️</button>
+                        </div>
+                        <span class="form-error" style="display: none;"></span>
+                    </div>
+
+                    <!-- Company (Optional) -->
+                    <div class="form-group">
+                        <label for="company" class="form-label">Company (Optional)</label>
+                        <input 
+                            type="text" 
+                            id="company" 
+                            name="company" 
+                            class="form-input"
+                            placeholder="Your company name"
+                        >
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termsCheckbox" name="terms" required>
+                        <label for="termsCheckbox" class="checkbox-label">
+                            I agree to the <a href="#" class="link-text">Terms of Service</a> and <a href="#" class="link-text">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <!-- Newsletter Opt-in -->
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="newsletterCheckbox" name="newsletter" checked>
+                        <label for="newsletterCheckbox" class="checkbox-label">
+                            Send me updates about new threats and features
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary btn-large btn-block">
+                        Create Account
+                    </button>
+
+                    <!-- Divider -->
+                    <div class="form-divider">
+                        <span>or</span>
+                    </div>
+
+                    <!-- Social Registration -->
+                    <div class="social-login">
+                        <button type="button" class="social-button google">
+                            <span class="social-icon">G</span>
+                            Sign up with Google
+                        </button>
+                        <button type="button" class="social-button microsoft">
+                            <span class="social-icon">⊞</span>
+                            Sign up with Microsoft
+                        </button>
+                    </div>
+
+                    <!-- Login Link -->
+                    <div class="form-footer">
+                        <p>Already have an account? 
+                            <a href="/login/" class="link-text">Sign in here</a>
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Security Notice -->
+                <div class="security-notice">
+                    <span class="icon">🔒</span>
+                    <p>Your data is encrypted and never shared with third parties.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Benefits -->
+        <div class="auth-branding">
+            <div class="branding-content">
+                <h1>Welcome to TruthGuard</h1>
+                <p>Protect yourself from fraud today</p>
+                
+                <div class="benefits-list">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🔍</div>
+                        <h3>Instant Analysis</h3>
+                        <p>Get threat assessment within seconds</p>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📊</div>
+                        <h3>Personalized Dashboard</h3>
+                        <p>Track and monitor your searches</p>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚨</div>
+                        <h3>Real-time Alerts</h3>
+                        <p>Get notified about new threats</p>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🛡️</div>
+                        <h3>Community Protection</h3>
+                        <p>Contribute to fraud prevention</p>
+                    </div>
+                </div>
+
+                <div class="stats-box">
+                    <div class="stat">
+                        <span class="stat-number">1M+</span>
+                        <span class="stat-text">Users Protected</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">10M+</span>
+                        <span class="stat-text">Threats Tracked</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">99.9%</span>
+                        <span class="stat-text">Uptime</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Floating Particles -->
+<div class="background-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

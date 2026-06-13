@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Your Profile</h1>
+        <p>Account details and community reputation</p>
+    </div>
+</section>
+
+<section class="profile-section">
+    <div class="container">
+        <div class="profile-card glass-card">
+            <div class="profile-header">
+                <div class="profile-avatar">{{ user.username|first|upper }}</div>
+                <div>
+                    <h2>{{ user.username }}</h2>
+                    <p>{{ user.email }}</p>
+                    {% if profile.verified_status %}<span class="verified-badge">✓ Verified</span>{% endif %}
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="profile-stat">
+                    <span class="stat-number">{{ profile.reputation_score }}</span>
+                    <span class="stat-label">Reputation Score</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="stat-number">{{ profile.total_reports }}</span>
+                    <span class="stat-label">Reports Submitted</span>
+                </div>
+                <div class="profile-stat">
+                    <span class="stat-number">{{ profile.created_at|date:"M Y" }}</span>
+                    <span class="stat-label">Member Since</span>
+                </div>
+            </div>
+            <div class="profile-actions">
+                <a href="{% url 'report' %}" class="btn-primary">Submit Report</a>
+                <a href="{% url 'dashboard' %}" class="btn-secondary">View Dashboard</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

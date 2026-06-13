@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Fraud Alerts - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Fraud Alerts</h1>
+        <p>Stay informed about emerging scam campaigns and threats</p>
+    </div>
+</section>
+
+<section class="alerts-page">
+    <div class="container">
+        <form method="get" class="filters-bar glass-card">
+            <div class="filter-group">
+                <label>Severity</label>
+                <select name="severity" class="form-select" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    {% for value, label in severity_choices %}
+                    <option value="{{ value }}" {% if severity == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Category</label>
+                <select name="category" class="form-select" onchange="this.form.submit()">
+                    <option value="">All</option>
+                    {% for value, label in category_choices %}
+                    <option value="{{ value }}" {% if category == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Date</label>
+                <select name="date" class="form-select" onchange="this.form.submit()">
+                    <option value="">All Time</option>
+                    <option value="today" {% if date_filter == 'today' %}selected{% endif %}>Today</option>
+                    <option value="week" {% if date_filter == 'week' %}selected{% endif %}>This Week</option>
+                    <option value="month" {% if date_filter == 'month' %}selected{% endif %}>This Month</option>
+                </select>
+            </div>
+        </form>
+
+        <div class="alerts-list">
+            {% for alert in alerts %}
+            <div class="alert-item alert-{{ alert.severity }} interactive-card">
+                <div class="alert-header">
+                    <span class="alert-badge {{ alert.severity }}">{{ alert.severity|upper }}</span>
+                    <span class="alert-time">{{ alert.created_at|timesince }} ago</span>
+                </div>
+                <h3>{{ alert.title }}</h3>
+                <p>{{ alert.description }}</p>
+                <div class="alert-tags">
+                    <span class="tag">{{ alert.get_category_display }}</span>
+                    {% if alert.related_entities.count %}
+                    <span class="tag">{{ alert.related_entities.count }} linked entities</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-state glass-card">
+                <p>No alerts match your filters.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,320 @@
+{% extends 'base.html' %}
+
+{% block title %}Entity Search - TruthGuard{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Entity Search & Analysis</h1>
+        <p>Analyze suspicious phone numbers, emails, URLs, and digital entities</p>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section">
+    <div class="container">
+        <div class="search-container">
+            <h2>Analyze Digital Entity</h2>
+            
+            <!-- Entity Type Selector -->
+            <div class="entity-type-selector">
+                <label class="entity-type-option active" data-type="phone">
+                    <input type="radio" name="entity-type" value="phone" checked>
+                    <span class="option-label">📱 Phone Number</span>
+                </label>
+                <label class="entity-type-option" data-type="email">
+                    <input type="radio" name="entity-type" value="email">
+                    <span class="option-label">📧 Email Address</span>
+                </label>
+                <label class="entity-type-option" data-type="url">
+                    <input type="radio" name="entity-type" value="url">
+                    <span class="option-label">🔗 URL</span>
+                </label>
+                <label class="entity-type-option" data-type="domain">
+                    <input type="radio" name="entity-type" value="domain">
+                    <span class="option-label">🌐 Domain</span>
+                </label>
+                <label class="entity-type-option" data-type="ip">
+                    <input type="radio" name="entity-type" value="ip">
+                    <span class="option-label">🖥️ IP Address</span>
+                </label>
+            </div>
+
+            <!-- Search Form -->
+            <form class="search-form" id="searchForm">
+                <div class="search-input-wrapper">
+                    <input 
+                        type="text" 
+                        id="entityInput" 
+                        class="search-input" 
+                        placeholder="Enter phone number (e.g., +1-555-123-4567)"
+                        autocomplete="off"
+                    >
+                    <button type="submit" class="btn-search">
+                        <span class="search-icon">🔍</span>
+                        Analyze
+                    </button>
+                </div>
+                <p class="search-hint">Enter the entity you want to analyze. Results are instant.</p>
+            </form>
+
+            <!-- Quick Examples -->
+            <div class="quick-examples">
+                <p>Quick Examples:</p>
+                <div class="examples-list">
+                    <button type="button" class="example-btn" data-value="+1-555-987-6543">+1-555-987-6543</button>
+                    <button type="button" class="example-btn" data-value="suspicious@unknown.com">suspicious@unknown.com</button>
+                    <button type="button" class="example-btn" data-value="http://fake-bank.xyz">http://fake-bank.xyz</button>
+                    <button type="button" class="example-btn" data-value="192.168.1.1">192.168.1.1</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Results Section -->
+<section class="results-section" id="resultsSection" style="display: none;">
+    <div class="container">
+        <div class="results-header">
+            <h2>Analysis Results</h2>
+            <button class="btn-close-results" id="closeResults">← New Search</button>
+        </div>
+
+        <div class="results-grid">
+            <!-- Risk Score Card -->
+            <div class="result-card risk-score-card">
+                <div class="card-header">
+                    <h3>Risk Score</h3>
+                    <span class="card-badge high">HIGH RISK</span>
+                </div>
+                <div class="risk-score-display">
+                    <div class="risk-circle">
+                        <svg class="progress-ring" viewBox="0 0 120 120">
+                            <circle class="progress-ring-circle" cx="60" cy="60" r="54"></circle>
+                        </svg>
+                        <span class="risk-number">78</span>
+                    </div>
+                    <div class="risk-info">
+                        <p class="risk-level">High Risk</p>
+                        <p class="risk-description">Likely fraudulent activity detected</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Entity Information Card -->
+            <div class="result-card entity-info-card">
+                <h3 class="card-header">Entity Information</h3>
+                <div class="info-group">
+                    <div class="info-item">
+                        <span class="info-label">Entity Type:</span>
+                        <span class="info-value">Phone Number</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Entity Value:</span>
+                        <span class="info-value">+1-555-987-6543</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Country:</span>
+                        <span class="info-value">United States</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Carrier:</span>
+                        <span class="info-value">Unknown/VoIP</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Last Checked:</span>
+                        <span class="info-value">Just now</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Card -->
+            <div class="result-card status-card">
+                <h3 class="card-header">Classification</h3>
+                <div class="status-badge-large high">HIGH RISK</div>
+                <div class="status-options">
+                    <div class="status-option">
+                        <input type="radio" id="status-low" name="status" value="low">
+                        <label for="status-low">✓ Low Risk</label>
+                    </div>
+                    <div class="status-option">
+                        <input type="radio" id="status-suspicious" name="status" value="suspicious">
+                        <label for="status-suspicious">⚠️ Suspicious</label>
+                    </div>
+                    <div class="status-option">
+                        <input type="radio" id="status-high" name="status" value="high" checked>
+                        <label for="status-high">🚨 High Risk</label>
+                    </div>
+                    <div class="status-option">
+                        <input type="radio" id="status-fraud" name="status" value="fraud">
+                        <label for="status-fraud">⛔ Confirmed Fraud</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Reasons Section -->
+        <div class="result-card full-width reasons-card">
+            <h3 class="card-header">Why This is Flagged as High Risk</h3>
+            <div class="reasons-list">
+                <div class="reason-item">
+                    <div class="reason-icon">🚨</div>
+                    <div class="reason-content">
+                        <h4>Multiple Fraud Reports</h4>
+                        <p>This number has been reported 47 times as used for scam calls over the past 30 days.</p>
+                    </div>
+                </div>
+
+                <div class="reason-item">
+                    <div class="reason-icon">⚠️</div>
+                    <div class="reason-content">
+                        <h4>Unknown Carrier</h4>
+                        <p>VoIP service with limited traceability, commonly used by scammers.</p>
+                    </div>
+                </div>
+
+                <div class="reason-item">
+                    <div class="reason-icon">🔗</div>
+                    <div class="reason-content">
+                        <h4>Associated with Phishing</h4>
+                        <p>Linked to phishing domains and malicious URLs in threat database.</p>
+                    </div>
+                </div>
+
+                <div class="reason-item">
+                    <div class="reason-icon">📊</div>
+                    <div class="reason-content">
+                        <h4>Unusual Activity Pattern</h4>
+                        <p>Calls to this number show patterns consistent with automated scam calling systems.</p>
+                    </div>
+                </div>
+
+                <div class="reason-item">
+                    <div class="reason-icon">⏰</div>
+                    <div class="reason-content">
+                        <h4>Recent Spike in Reports</h4>
+                        <p>Significant increase in reports in the last 24 hours indicates active campaign.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Timeline -->
+        <div class="result-card full-width timeline-card">
+            <h3 class="card-header">Activity Timeline</h3>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Today, 2:45 PM</span>
+                        <p class="timeline-text">Reported as scam call attempting to collect debt</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Today, 1:20 PM</span>
+                        <p class="timeline-text">Associated with phishing email campaign</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Yesterday, 11:00 AM</span>
+                        <p class="timeline-text">Multiple user reports of fraudulent activity</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">2 days ago, 3:15 PM</span>
+                        <p class="timeline-text">Added to fraud tracking database</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Threat Summary -->
+        <div class="result-card full-width threat-summary-card">
+            <h3 class="card-header">Threat Summary & Recommendations</h3>
+            
+            <div class="threat-summary-content">
+                <div class="threat-box danger">
+                    <h4>⛔ Recommended Action</h4>
+                    <p>Block this number immediately. Do not answer calls or respond to messages from this number.</p>
+                </div>
+
+                <div class="threat-recommendations">
+                    <h4>Safety Recommendations:</h4>
+                    <ul>
+                        <li>✓ Block this number in your phone settings</li>
+                        <li>✓ Report to your mobile carrier</li>
+                        <li>✓ Do not provide personal or financial information</li>
+                        <li>✓ If you received suspicious messages, mark as spam</li>
+                        <li>✓ Check your accounts for unauthorized activity</li>
+                    </ul>
+                </div>
+
+                <div class="threat-actions">
+                    <button class="btn-primary">Block Entity</button>
+                    <button class="btn-secondary">Report Scam</button>
+                    <button class="btn-secondary">Share Results</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Related Reports -->
+        <div class="result-card full-width related-reports-card">
+            <h3 class="card-header">Related Reports & Similar Entities</h3>
+            
+            <div class="related-reports-list">
+                <div class="related-item">
+                    <span class="related-type">📱 Similar Phone</span>
+                    <span class="related-entity">+1-555-987-6544</span>
+                    <span class="related-risk-badge high">HIGH RISK</span>
+                </div>
+
+                <div class="related-item">
+                    <span class="related-type">🌐 Associated Domain</span>
+                    <span class="related-entity">fake-recovery-services.xyz</span>
+                    <span class="related-risk-badge critical">CRITICAL</span>
+                </div>
+
+                <div class="related-item">
+                    <span class="related-type">📧 Related Email</span>
+                    <span class="related-entity">recovery@fake-services.com</span>
+                    <span class="related-risk-badge high">HIGH RISK</span>
+                </div>
+
+                <div class="related-item">
+                    <span class="related-type">🖥️ Associated IP</span>
+                    <span class="related-entity">203.45.67.89</span>
+                    <span class="related-risk-badge medium">MEDIUM RISK</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- No Results State -->
+<section class="no-results-section" id="noResultsSection" style="display: none;">
+    <div class="container">
+        <div class="no-results-content">
+            <div class="no-results-icon">🔍</div>
+            <h2>No Results Found</h2>
+            <p>This entity appears to be safe or hasn't been analyzed yet.</p>
+            <a href="#" class="btn-primary">Report if Suspicious</a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

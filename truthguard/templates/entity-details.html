@@ -1,0 +1,380 @@
+{% extends 'base.html' %}
+
+{% block title %}Entity Details - TruthGuard{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <div class="header-content">
+            <h1>Entity Intelligence Report</h1>
+            <p>Detailed threat analysis and risk assessment</p>
+        </div>
+        <a href="/search/" class="btn-secondary">← Back to Search</a>
+    </div>
+</section>
+
+<!-- Entity Details Section -->
+<section class="entity-details-section">
+    <div class="container">
+        <!-- Entity Header Card -->
+        <div class="entity-header-card">
+            <div class="entity-header-content">
+                <div class="entity-icon-large">📱</div>
+                <div class="entity-info">
+                    <h2>+1-555-987-6543</h2>
+                    <p class="entity-type">Phone Number</p>
+                </div>
+            </div>
+            <div class="entity-actions">
+                <button class="btn-icon">❤️</button>
+                <button class="btn-icon">🔗</button>
+                <button class="btn-icon">⬇️</button>
+            </div>
+        </div>
+
+        <!-- Two Column Layout -->
+        <div class="details-grid">
+            <!-- Left Column -->
+            <div class="details-column-left">
+                <!-- Risk Assessment Card -->
+                <div class="detail-card risk-card">
+                    <h3 class="card-title">Risk Assessment</h3>
+                    
+                    <div class="risk-score-large">
+                        <div class="score-circle">
+                            <svg class="score-ring" viewBox="0 0 150 150">
+                                <circle cx="75" cy="75" r="70" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="8"></circle>
+                                <circle cx="75" cy="75" r="70" fill="none" stroke="#EF4444" stroke-width="8" 
+                                        stroke-dasharray="175 220" stroke-dashoffset="0"></circle>
+                            </svg>
+                            <div class="score-value">
+                                <span class="score-number">78</span>
+                                <span class="score-label">/100</span>
+                            </div>
+                        </div>
+                        <div class="risk-interpretation">
+                            <h4 class="risk-level high">HIGH RISK</h4>
+                            <p>This entity shows clear indicators of fraudulent activity.</p>
+                        </div>
+                    </div>
+
+                    <div class="risk-factors">
+                        <h4>Risk Factors:</h4>
+                        <ul class="factors-list">
+                            <li class="factor high">
+                                <span class="factor-icon">🚨</span>
+                                <span>Multiple fraud reports</span>
+                            </li>
+                            <li class="factor high">
+                                <span class="factor-icon">⚠️</span>
+                                <span>Unknown carrier (VoIP)</span>
+                            </li>
+                            <li class="factor medium">
+                                <span class="factor-icon">🔗</span>
+                                <span>Associated with phishing</span>
+                            </li>
+                            <li class="factor medium">
+                                <span class="factor-icon">📊</span>
+                                <span>Unusual call patterns</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Basic Information Card -->
+                <div class="detail-card">
+                    <h3 class="card-title">Basic Information</h3>
+                    
+                    <div class="info-table">
+                        <div class="info-row">
+                            <span class="info-key">Entity Type:</span>
+                            <span class="info-val">Phone Number</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">Full Number:</span>
+                            <span class="info-val">+1 (555) 987-6543</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">Country:</span>
+                            <span class="info-val">United States</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">Area Code:</span>
+                            <span class="info-val">555 (Fictional)</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">Carrier:</span>
+                            <span class="info-val">Unknown/VoIP Service</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">First Reported:</span>
+                            <span class="info-val">3 weeks ago</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-key">Last Activity:</span>
+                            <span class="info-val">2 hours ago</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Threat Timeline -->
+                <div class="detail-card">
+                    <h3 class="card-title">Activity Timeline</h3>
+                    
+                    <div class="detailed-timeline">
+                        <div class="timeline-entry critical">
+                            <div class="timeline-date">Today, 2:45 PM</div>
+                            <div class="timeline-event">
+                                <span class="event-type critical">🚨 Scam Report</span>
+                                <p>Reported as attempting to collect debt through intimidation</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-entry high">
+                            <div class="timeline-date">Today, 1:20 PM</div>
+                            <div class="timeline-event">
+                                <span class="event-type high">⚠️ Phishing Association</span>
+                                <p>Associated with phishing email campaign targeting banks</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-entry high">
+                            <div class="timeline-date">Yesterday, 3:30 PM</div>
+                            <div class="timeline-event">
+                                <span class="event-type high">📱 Multiple Reports</span>
+                                <p>5 new fraud reports received</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-entry medium">
+                            <div class="timeline-date">3 days ago</div>
+                            <div class="timeline-event">
+                                <span class="event-type medium">🔗 Network Association</span>
+                                <p>Linked to similar fraudulent phone numbers</p>
+                            </div>
+                        </div>
+
+                        <div class="timeline-entry">
+                            <div class="timeline-date">3 weeks ago</div>
+                            <div class="timeline-event">
+                                <span class="event-type">📝 First Detection</span>
+                                <p>Initial report added to threat database</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="details-column-right">
+                <!-- Recommendations Card -->
+                <div class="detail-card recommendations-card">
+                    <h3 class="card-title">Safety Recommendations</h3>
+                    
+                    <div class="recommendation-box critical">
+                        <h4>⛔ Immediate Actions</h4>
+                        <ul class="recommendations-list">
+                            <li>Block this number immediately</li>
+                            <li>Do not call back</li>
+                            <li>Do not provide any personal information</li>
+                            <li>Do not comply with requests</li>
+                        </ul>
+                    </div>
+
+                    <div class="recommendation-box warning">
+                        <h4>⚠️ If Already Compromised</h4>
+                        <ul class="recommendations-list">
+                            <li>Change all banking passwords</li>
+                            <li>Monitor accounts for unauthorized activity</li>
+                            <li>Contact your bank directly</li>
+                            <li>File a complaint with authorities</li>
+                        </ul>
+                    </div>
+
+                    <div class="recommendation-box info">
+                        <h4>📞 Report This Number</h4>
+                        <ul class="recommendations-list">
+                            <li>Report to your mobile carrier</li>
+                            <li>File with FTC at reportfraud.ftc.gov</li>
+                            <li>Submit to FBI IC3 at ic3.gov</li>
+                            <li>Contact local law enforcement</li>
+                        </ul>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn-primary">Block Number</button>
+                        <button class="btn-secondary">Report to Authorities</button>
+                        <button class="btn-secondary">Share with Network</button>
+                    </div>
+                </div>
+
+                <!-- Statistics Card -->
+                <div class="detail-card">
+                    <h3 class="card-title">Report Statistics</h3>
+                    
+                    <div class="stat-boxes">
+                        <div class="stat-box">
+                            <span class="stat-icon">📝</span>
+                            <div class="stat-info">
+                                <span class="stat-label">Total Reports</span>
+                                <span class="stat-number">247</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-icon">📅</span>
+                            <div class="stat-info">
+                                <span class="stat-label">This Month</span>
+                                <span class="stat-number">89</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-icon">📊</span>
+                            <div class="stat-info">
+                                <span class="stat-label">This Week</span>
+                                <span class="stat-number">34</span>
+                            </div>
+                        </div>
+
+                        <div class="stat-box">
+                            <span class="stat-icon">⏰</span>
+                            <div class="stat-info">
+                                <span class="stat-label">Today</span>
+                                <span class="stat-number">12</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Related Entities Card -->
+                <div class="detail-card">
+                    <h3 class="card-title">Related Entities</h3>
+                    
+                    <div class="related-entities">
+                        <div class="related-entity-item">
+                            <div class="entity-type-badge">📱</div>
+                            <div class="entity-details">
+                                <p class="entity-name">+1-555-987-6544</p>
+                                <span class="entity-risk high">HIGH RISK</span>
+                            </div>
+                            <a href="#" class="entity-link">→</a>
+                        </div>
+
+                        <div class="related-entity-item">
+                            <div class="entity-type-badge">🌐</div>
+                            <div class="entity-details">
+                                <p class="entity-name">fake-recovery-services.xyz</p>
+                                <span class="entity-risk critical">CRITICAL</span>
+                            </div>
+                            <a href="#" class="entity-link">→</a>
+                        </div>
+
+                        <div class="related-entity-item">
+                            <div class="entity-type-badge">📧</div>
+                            <div class="entity-details">
+                                <p class="entity-name">recovery@fake-services.com</p>
+                                <span class="entity-risk high">HIGH RISK</span>
+                            </div>
+                            <a href="#" class="entity-link">→</a>
+                        </div>
+
+                        <div class="related-entity-item">
+                            <div class="entity-type-badge">🖥️</div>
+                            <div class="entity-details">
+                                <p class="entity-name">203.45.67.89</p>
+                                <span class="entity-risk medium">MEDIUM RISK</span>
+                            </div>
+                            <a href="#" class="entity-link">→</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verification Card -->
+                <div class="detail-card verification-card">
+                    <h3 class="card-title">Verification Status</h3>
+                    
+                    <div class="verification-items">
+                        <div class="verification-item verified">
+                            <span class="check-icon">✓</span>
+                            <span>Confirmed Fraud</span>
+                        </div>
+                        <div class="verification-item verified">
+                            <span class="check-icon">✓</span>
+                            <span>Multiple Reports</span>
+                        </div>
+                        <div class="verification-item verified">
+                            <span class="check-icon">✓</span>
+                            <span>Active Campaign</span>
+                        </div>
+                        <div class="verification-item unverified">
+                            <span class="check-icon">✗</span>
+                            <span>Law Enforcement Report</span>
+                        </div>
+                    </div>
+
+                    <p class="verification-note">
+                        This entity has been verified as part of active fraud campaigns. Verification is based on community reports and threat intelligence.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Full Width Sections -->
+        
+        <!-- Detailed Analysis Card -->
+        <div class="detail-card full-width">
+            <h3 class="card-title">Detailed Threat Analysis</h3>
+            
+            <div class="analysis-tabs">
+                <button class="tab-button active" data-tab="patterns">Call Patterns</button>
+                <button class="tab-button" data-tab="techniques">Scam Techniques</button>
+                <button class="tab-button" data-tab="impact">Impact Analysis</button>
+            </div>
+
+            <div class="tab-content active" id="patternsTab">
+                <p>This number shows characteristics typical of automated robocall systems:</p>
+                <ul class="analysis-list">
+                    <li>Calls made during business hours (9 AM - 6 PM EST)</li>
+                    <li>Sequential dialing patterns suggest automated systems</li>
+                    <li>Calls typically last 2-5 minutes</li>
+                    <li>Higher call frequency on weekdays</li>
+                    <li>Multiple calls to same numbers within short timeframes</li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="techniquesTab">
+                <p>Reported scam techniques used by this number:</p>
+                <ul class="analysis-list">
+                    <li>Impersonating debt collectors with threats</li>
+                    <li>Claiming account has been compromised</li>
+                    <li>Requesting immediate payment via wire transfer</li>
+                    <li>Using urgency and fear tactics</li>
+                    <li>Requesting personal/financial information</li>
+                </ul>
+            </div>
+
+            <div class="tab-content" id="impactTab">
+                <p>Estimated impact of this fraud campaign:</p>
+                <ul class="analysis-list">
+                    <li>Estimated 500+ victims identified</li>
+                    <li>Average loss per victim: $2,000 - $5,000</li>
+                    <li>Total estimated fraud: $1.2M+</li>
+                    <li>Active for 21 days</li>
+                    <li>Associated with 3 other phone numbers</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Floating Particles -->
+<div class="background-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/entity-details.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,513 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Dashboard - TruthGuard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-container">
+    <!-- Sidebar Navigation -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <h2>Dashboard</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link active" data-section="overview">
+                <span class="nav-icon">📊</span>
+                <span class="nav-text">Overview</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="threats">
+                <span class="nav-icon">⚠️</span>
+                <span class="nav-text">Threats</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="analytics">
+                <span class="nav-icon">📈</span>
+                <span class="nav-text">Analytics</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="reports">
+                <span class="nav-icon">📋</span>
+                <span class="nav-text">Reports</span>
+            </a>
+            <a href="#" class="sidebar-link" data-section="settings">
+                <span class="nav-icon">⚙️</span>
+                <span class="nav-text">Settings</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="storage-info">
+                <p class="storage-label">Storage Used</p>
+                <div class="storage-bar">
+                    <div class="storage-fill" style="width: 35%"></div>
+                </div>
+                <p class="storage-text">3.5 GB / 10 GB</p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Dashboard Content -->
+    <main class="dashboard-main">
+        <!-- Top Bar -->
+        <div class="dashboard-topbar">
+            <div class="topbar-left">
+                <h1>Threat Intelligence Dashboard</h1>
+                <p class="topbar-subtitle">Real-time fraud monitoring and analysis</p>
+            </div>
+
+            <div class="topbar-right">
+                <div class="time-range-selector">
+                    <button class="time-btn active" data-range="24h">24h</button>
+                    <button class="time-btn" data-range="7d">7d</button>
+                    <button class="time-btn" data-range="30d">30d</button>
+                    <button class="time-btn" data-range="all">All</button>
+                </div>
+
+                <button class="btn-icon-secondary" title="Refresh">🔄</button>
+                <button class="btn-icon-secondary" title="Settings">⚙️</button>
+            </div>
+        </div>
+
+        <!-- Overview Section -->
+        <section class="dashboard-section" id="overviewSection">
+            <!-- KPI Cards -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3>Total Threats</h3>
+                        <span class="kpi-icon">🚨</span>
+                    </div>
+                    <div class="kpi-value" data-value="4231">0</div>
+                    <div class="kpi-change positive">↑ 12% from yesterday</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3>Critical</h3>
+                        <span class="kpi-icon">🔴</span>
+                    </div>
+                    <div class="kpi-value" data-value="127">0</div>
+                    <div class="kpi-change positive">↑ 8 new today</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3>High Risk</h3>
+                        <span class="kpi-icon">🟠</span>
+                    </div>
+                    <div class="kpi-value" data-value="342">0</div>
+                    <div class="kpi-change negative">↓ 5% from last week</div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-header">
+                        <h3>Analyzed</h3>
+                        <span class="kpi-icon">✓</span>
+                    </div>
+                    <div class="kpi-value" data-value="12543">0</div>
+                    <div class="kpi-change positive">↑ 3.2K today</div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-grid">
+                <!-- Threat Distribution Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Threat Distribution</h3>
+                        <span class="chart-legend-icon">📊</span>
+                    </div>
+                    <div class="chart-placeholder" style="height: 300px;">
+                        <svg viewBox="0 0 100 100" class="chart-pie">
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="30"></circle>
+                            <circle cx="50" cy="50" r="45" fill="none" stroke="#06B6D4" stroke-width="15" stroke-dasharray="75 100" stroke-dashoffset="0"></circle>
+                        </svg>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color critical"></span>
+                                <span>Critical: 127</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color high"></span>
+                                <span>High: 342</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color medium"></span>
+                                <span>Medium: 891</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color low"></span>
+                                <span>Low: 2871</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Fraud Trends Chart -->
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Fraud Trends (7 Days)</h3>
+                        <span class="chart-legend-icon">📈</span>
+                    </div>
+                    <div class="chart-placeholder" style="height: 300px;">
+                        <svg viewBox="0 0 300 150" class="chart-line">
+                            <polyline points="10,120 50,100 90,110 130,70 170,80 210,60 250,40 290,50" 
+                                      fill="none" stroke="#06B6D4" stroke-width="2" stroke-linecap="round"></polyline>
+                            <polyline points="10,120 50,100 90,110 130,70 170,80 210,60 250,40 290,50" 
+                                      fill="url(#gradient)" opacity="0.2"></polyline>
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:0.3" />
+                                    <stop offset="100%" style="stop-color:#06B6D4;stop-opacity:0" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                        <div class="chart-labels">
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                            <span>Sun</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Risk Distribution -->
+            <div class="distribution-cards">
+                <div class="distribution-card">
+                    <h3>Risk Distribution by Type</h3>
+                    <div class="risk-bars">
+                        <div class="risk-bar-item">
+                            <span class="risk-label">Phishing</span>
+                            <div class="risk-bar-track">
+                                <div class="risk-bar-fill critical" style="width: 65%">
+                                    <span class="risk-bar-value">1,243</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar-item">
+                            <span class="risk-label">Fraud</span>
+                            <div class="risk-bar-track">
+                                <div class="risk-bar-fill high" style="width: 48%">
+                                    <span class="risk-bar-value">892</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar-item">
+                            <span class="risk-label">Malware</span>
+                            <div class="risk-bar-track">
+                                <div class="risk-bar-fill warning" style="width: 35%">
+                                    <span class="risk-bar-value">654</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar-item">
+                            <span class="risk-label">Data Breach</span>
+                            <div class="risk-bar-track">
+                                <div class="risk-bar-fill medium" style="width: 28%">
+                                    <span class="risk-bar-value">521</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="risk-bar-item">
+                            <span class="risk-label">Other</span>
+                            <div class="risk-bar-track">
+                                <div class="risk-bar-fill low" style="width: 15%">
+                                    <span class="risk-bar-value">289</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="distribution-card">
+                    <h3>Entity Analysis Breakdown</h3>
+                    <div class="entity-breakdown">
+                        <div class="entity-item">
+                            <div class="entity-icon">📱</div>
+                            <div class="entity-details">
+                                <span class="entity-type">Phone Numbers</span>
+                                <span class="entity-count">4,231</span>
+                            </div>
+                            <div class="entity-percentage">34%</div>
+                        </div>
+
+                        <div class="entity-item">
+                            <div class="entity-icon">📧</div>
+                            <div class="entity-details">
+                                <span class="entity-type">Email Addresses</span>
+                                <span class="entity-count">3,124</span>
+                            </div>
+                            <div class="entity-percentage">25%</div>
+                        </div>
+
+                        <div class="entity-item">
+                            <div class="entity-icon">🔗</div>
+                            <div class="entity-details">
+                                <span class="entity-type">URLs</span>
+                                <span class="entity-count">2,876</span>
+                            </div>
+                            <div class="entity-percentage">23%</div>
+                        </div>
+
+                        <div class="entity-item">
+                            <div class="entity-icon">🌐</div>
+                            <div class="entity-details">
+                                <span class="entity-type">Domains</span>
+                                <span class="entity-count">1,543</span>
+                            </div>
+                            <div class="entity-percentage">12%</div>
+                        </div>
+
+                        <div class="entity-item">
+                            <div class="entity-icon">🖥️</div>
+                            <div class="entity-details">
+                                <span class="entity-type">IP Addresses</span>
+                                <span class="entity-count">769</span>
+                            </div>
+                            <div class="entity-percentage">6%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Reports Section -->
+        <section class="dashboard-section" id="reportsSection">
+            <div class="section-header">
+                <h2>Recent Reports</h2>
+                <a href="/alerts/" class="link-button">View All →</a>
+            </div>
+
+            <div class="reports-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Report ID</th>
+                            <th>Type</th>
+                            <th>Entity</th>
+                            <th>Severity</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="report-id">#RPT-001</span></td>
+                            <td>Phishing</td>
+                            <td>bank-security-check.xyz</td>
+                            <td><span class="badge critical">Critical</span></td>
+                            <td>2 hours ago</td>
+                            <td><span class="status investigating">Investigating</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="report-id">#RPT-002</span></td>
+                            <td>Romance Scam</td>
+                            <td>user@fake-profile.com</td>
+                            <td><span class="badge high">High</span></td>
+                            <td>5 hours ago</td>
+                            <td><span class="status confirmed">Confirmed</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="report-id">#RPT-003</span></td>
+                            <td>Malware</td>
+                            <td>+1-555-234-5678</td>
+                            <td><span class="badge high">High</span></td>
+                            <td>1 day ago</td>
+                            <td><span class="status investigating">Investigating</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="report-id">#RPT-004</span></td>
+                            <td>Data Breach</td>
+                            <td>192.168.45.67</td>
+                            <td><span class="badge medium">Medium</span></td>
+                            <td>2 days ago</td>
+                            <td><span class="status resolved">Resolved</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="report-id">#RPT-005</span></td>
+                            <td>Identity Theft</td>
+                            <td>unknown@service.com</td>
+                            <td><span class="badge medium">Medium</span></td>
+                            <td>3 days ago</td>
+                            <td><span class="status confirmed">Confirmed</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Threat Activity Timeline -->
+        <section class="dashboard-section" id="timelineSection">
+            <div class="section-header">
+                <h2>Threat Activity Timeline</h2>
+            </div>
+
+            <div class="activity-timeline">
+                <div class="timeline-event critical">
+                    <div class="event-time">02:45 PM</div>
+                    <div class="event-marker"></div>
+                    <div class="event-content">
+                        <h4>Critical Phishing Campaign Detected</h4>
+                        <p>15,000+ fraudulent domains identified targeting financial institutions.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event high">
+                    <div class="event-time">01:20 PM</div>
+                    <div class="event-marker"></div>
+                    <div class="event-content">
+                        <h4>Romance Scam Network Dismantled</h4>
+                        <p>200+ fraudulent accounts disrupted across dating platforms.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event high">
+                    <div class="event-time">10:15 AM</div>
+                    <div class="event-marker"></div>
+                    <div class="event-content">
+                        <h4>Malware Distribution Campaign</h4>
+                        <p>Banking trojan detected in email attachments.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-event medium">
+                    <div class="event-time">Yesterday, 8:30 PM</div>
+                    <div class="event-marker"></div>
+                    <div class="event-content">
+                        <h4>Data Breach Alert</h4>
+                        <p>50K records exposed from e-commerce platform.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Top Threat Entities -->
+        <section class="dashboard-section" id="topEntitiesSection">
+            <div class="section-header">
+                <h2>Top Threat Entities</h2>
+            </div>
+
+            <div class="threat-entities-grid">
+                <div class="entity-card threat">
+                    <div class="entity-rank">1</div>
+                    <h4>+1-555-987-6543</h4>
+                    <p class="entity-type">Phone Number</p>
+                    <div class="threat-stats">
+                        <div class="stat">
+                            <span class="stat-label">Reports:</span>
+                            <span class="stat-value">247</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Risk:</span>
+                            <span class="stat-value risk critical">CRITICAL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="entity-card threat">
+                    <div class="entity-rank">2</div>
+                    <h4>fake-bank-recovery.xyz</h4>
+                    <p class="entity-type">Domain</p>
+                    <div class="threat-stats">
+                        <div class="stat">
+                            <span class="stat-label">Reports:</span>
+                            <span class="stat-value">189</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Risk:</span>
+                            <span class="stat-value risk high">HIGH</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="entity-card threat">
+                    <div class="entity-rank">3</div>
+                    <h4>192.168.45.123</h4>
+                    <p class="entity-type">IP Address</p>
+                    <div class="threat-stats">
+                        <div class="stat">
+                            <span class="stat-label">Reports:</span>
+                            <span class="stat-value">156</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Risk:</span>
+                            <span class="stat-value risk high">HIGH</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="entity-card threat">
+                    <div class="entity-rank">4</div>
+                    <h4>scammer@fake-service.com</h4>
+                    <p class="entity-type">Email Address</p>
+                    <div class="threat-stats">
+                        <div class="stat">
+                            <span class="stat-label">Reports:</span>
+                            <span class="stat-value">134</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-label">Risk:</span>
+                            <span class="stat-value risk medium">MEDIUM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Alerts -->
+        <section class="dashboard-section" id="recentAlertsSection">
+            <div class="section-header">
+                <h2>Recent Alerts</h2>
+                <a href="/alerts/" class="link-button">View All →</a>
+            </div>
+
+            <div class="recent-alerts-list">
+                <div class="alert-item-compact critical">
+                    <div class="alert-marker critical"></div>
+                    <div class="alert-info">
+                        <h4>Global Phishing Campaign</h4>
+                        <p>15,000+ fraudulent domains detected</p>
+                        <span class="alert-time">2 minutes ago</span>
+                    </div>
+                </div>
+
+                <div class="alert-item-compact high">
+                    <div class="alert-marker high"></div>
+                    <div class="alert-info">
+                        <h4>Romance Scam Network</h4>
+                        <p>200+ accounts disrupted</p>
+                        <span class="alert-time">1 hour ago</span>
+                    </div>
+                </div>
+
+                <div class="alert-item-compact high">
+                    <div class="alert-marker high"></div>
+                    <div class="alert-info">
+                        <h4>Malware Distribution</h4>
+                        <p>Banking trojan campaign active</p>
+                        <span class="alert-time">3 hours ago</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

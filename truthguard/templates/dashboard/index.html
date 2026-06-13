@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - TruthGuard{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-page">
+    <section class="page-header">
+        <div class="container">
+            <h1>Threat Intelligence Dashboard</h1>
+            <p>Real-time fraud analytics and risk monitoring</p>
+        </div>
+    </section>
+
+    <div class="container dashboard-content">
+        <div class="dash-stats-grid">
+            <div class="dash-stat-card">
+                <span class="dash-stat-label">Total Reports</span>
+                <span class="dash-stat-value counter" data-target="{{ stats.total_reports }}">0</span>
+            </div>
+            <div class="dash-stat-card">
+                <span class="dash-stat-label">Entities Tracked</span>
+                <span class="dash-stat-value counter" data-target="{{ stats.total_entities }}">0</span>
+            </div>
+            <div class="dash-stat-card">
+                <span class="dash-stat-label">Active Alerts</span>
+                <span class="dash-stat-value counter" data-target="{{ stats.active_alerts }}">0</span>
+            </div>
+            <div class="dash-stat-card danger">
+                <span class="dash-stat-label">High Risk</span>
+                <span class="dash-stat-value counter" data-target="{{ stats.high_risk }}">0</span>
+            </div>
+            <div class="dash-stat-card warning">
+                <span class="dash-stat-label">Pending Reports</span>
+                <span class="dash-stat-value counter" data-target="{{ stats.pending_reports }}">0</span>
+            </div>
+            <div class="dash-stat-card success">
+                <span class="dash-stat-label">Safe Entities</span>
+                <span class="dash-stat-value counter" data-target="{{ stats.safe_entities }}">0</span>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card glass-card">
+                <h3>Threat Level Distribution</h3>
+                <canvas id="threatChart"></canvas>
+            </div>
+            <div class="chart-card glass-card">
+                <h3>Entity Types</h3>
+                <canvas id="entityTypeChart"></canvas>
+            </div>
+            <div class="chart-card glass-card wide">
+                <h3>Reports Timeline (7 Days)</h3>
+                <canvas id="timelineChart"></canvas>
+            </div>
+            <div class="chart-card glass-card">
+                <h3>Alert Severity</h3>
+                <canvas id="alertChart"></canvas>
+            </div>
+        </div>
+
+        <div class="dashboard-tables">
+            <div class="table-card glass-card">
+                <h3>High-Risk Entities</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr><th>Entity</th><th>Type</th><th>Risk</th><th>Threat</th><th>Reports</th></tr>
+                    </thead>
+                    <tbody>
+                        {% for entity in high_risk_entities %}
+                        <tr>
+                            <td><a href="{% url 'entity_detail' entity.pk %}">{{ entity.entity_value|truncatechars:40 }}</a></td>
+                            <td>{{ entity.get_entity_type_display }}</td>
+                            <td><span class="risk-pill">{{ entity.risk_score }}</span></td>
+                            <td><span class="threat-badge {{ entity.threat_level }}">{{ entity.threat_level }}</span></td>
+                            <td>{{ entity.report_count }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr><td colspan="5">No high-risk entities detected.</td></tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-card glass-card">
+                <h3>Recent Activity</h3>
+                <div class="activity-feed">
+                    {% for report in recent_activity %}
+                    <div class="activity-item">
+                        <span class="activity-time">{{ report.created_at|timesince }} ago</span>
+                        <p><strong>{{ report.entity.entity_value|truncatechars:30 }}</strong> — {{ report.get_report_status_display }}</p>
+                        {% if report.reporter %}<span class="activity-user">by {{ report.reporter.username }}</span>{% endif %}
+                    </div>
+                    {% empty %}
+                    <p>No recent activity.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+    window.dashboardData = {
+        threatDistribution: {{ threat_distribution|safe }},
+        entityTypeDistribution: {{ entity_type_distribution|safe }},
+        reportsTimeline: {{ reports_timeline|safe }},
+        alertSeverity: {{ alert_severity|safe }},
+    };
+</script>
+<script src="{% static 'js/charts.js' %}"></script>
+{% endblock %}

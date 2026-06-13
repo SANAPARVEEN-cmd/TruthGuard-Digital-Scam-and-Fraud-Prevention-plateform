@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+
+{% block title %}Threat Alerts - TruthGuard{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Threat Alerts Feed</h1>
+        <p>Real-time fraud and security threat intelligence</p>
+    </div>
+</section>
+
+<!-- Alerts Controls -->
+<section class="alerts-controls">
+    <div class="container">
+        <div class="controls-row">
+            <div class="filter-group">
+                <label for="severityFilter">Severity:</label>
+                <select id="severityFilter" class="filter-select">
+                    <option value="all">All Levels</option>
+                    <option value="critical">🔴 Critical</option>
+                    <option value="high">🟠 High</option>
+                    <option value="medium">🟡 Medium</option>
+                    <option value="low">🟢 Low</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="categoryFilter">Category:</label>
+                <select id="categoryFilter" class="filter-select">
+                    <option value="all">All Categories</option>
+                    <option value="phishing">Phishing</option>
+                    <option value="malware">Malware</option>
+                    <option value="fraud">Financial Fraud</option>
+                    <option value="data-breach">Data Breach</option>
+                    <option value="ransomware">Ransomware</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="timeFilter">Time Period:</label>
+                <select id="timeFilter" class="filter-select">
+                    <option value="24h">Last 24 Hours</option>
+                    <option value="7d">Last 7 Days</option>
+                    <option value="30d">Last 30 Days</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+
+            <button class="btn-secondary" id="clearFilters">Clear Filters</button>
+        </div>
+
+        <div class="alerts-stats">
+            <div class="stat-badge critical">
+                <span class="badge-label">Critical</span>
+                <span class="badge-count">12</span>
+            </div>
+            <div class="stat-badge high">
+                <span class="badge-label">High</span>
+                <span class="badge-count">34</span>
+            </div>
+            <div class="stat-badge medium">
+                <span class="badge-label">Medium</span>
+                <span class="badge-count">87</span>
+            </div>
+            <div class="stat-badge low">
+                <span class="badge-label">Low</span>
+                <span class="badge-count">156</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Alerts List -->
+<section class="alerts-list-section">
+    <div class="container">
+        <div class="alerts-list" id="alertsList">
+            
+            <!-- Critical Alert 1 -->
+            <div class="alert-card alert-critical">
+                <div class="alert-header">
+                    <div class="alert-title-section">
+                        <span class="alert-severity critical">🔴 CRITICAL</span>
+                        <h3 class="alert-title">Global Phishing Campaign Targeting Financial Institutions</h3>
+                    </div>
+                    <span class="alert-time">2 minutes ago</span>
+                </div>
+
+                <p class="alert-description">
+                    A coordinated phishing campaign has been detected targeting major financial institutions with 15,000+ fraudulent domains. Threat actors are sending spoofed emails impersonating bank officials requesting credential verification.
+                </p>
+
+                <div class="alert-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Affected Entities:</span>
+                        <span class="detail-value">Multiple Banks & Credit Unions</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Impact:</span>
+                        <span class="detail-value">High - Credential Harvesting</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Detected By:</span>
+                        <span class="detail-value">TruthGuard Threat Intelligence</span>
+                    </div>
+                </div>
+
+                <div class="alert-tags">
+                    <span class="tag critical">Phishing</span>
+                    <span class="tag critical">Active Campaign</span>
+                    <span class="tag critical">Credential Harvesting</span>
+                    <span class="tag critical">Financial</span>
+                </div>
+
+                <div class="alert-actions">
+                    <button class="btn-sm-primary">View Details</button>
+                    <button class="btn-sm-secondary">Report Similar</button>
+                    <button class="btn-sm-secondary">Share Alert</button>
+                </div>
+            </div>
+
+            <!-- High Alert 1 -->
+            <div class="alert-card alert-high">
+                <div class="alert-header">
+                    <div class="alert-title-section">
+                        <span class="alert-severity high">🟠 HIGH</span>
+                        <h3 class="alert-title">Romance Scam Network Dismantled - 200+ Accounts</h3>
+                    </div>
+                    <span class="alert-time">1 hour ago</span>
+                </div>
+
+                <p class="alert-description">
+                    Investigation has uncovered a large-scale romance scam network operating across multiple dating platforms. Approximately 200 fraudulent accounts have been identified targeting vulnerable individuals to extract money through romantic deception.
+                </p>
+
+                <div class="alert-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Victims:</span>
+                        <span class="detail-value">~500+ (Estimated)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Financial Loss:</span>
+                        <span class="detail-value">$1.2M+ (Est.)</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Platforms Affected:</span>
+                        <span class="detail-value">Multiple Dating Platforms</span>
+                    </div>
+                </div>
+
+                <div class="alert-tags">
+                    <span class="tag high">Romance Scam</span>
+                    <span class="tag high">Network</span>
+                    <span class="tag high">Investigation</span>
+                </div>
+
+                <div class="alert-actions">
+                    <button class="btn-sm-primary">View Details</button>
+                    <button class="btn-sm-secondary">Report Similar</button>
+                    <button class="btn-sm-secondary">Share Alert</button>
+                </div>
+            </div>
+
+            <!-- Critical Alert 2 -->
+            <div class="alert-card alert-critical">
+                <div class="alert-header">
+                    <div class="alert-title-section">
+                        <span class="alert-severity critical">🔴 CRITICAL</span>
+                        <h3 class="alert-title">Ransomware Attack - Healthcare Provider Data Exposed</h3>
+                    </div>
+                    <span class="alert-time">3 hours ago</span>
+                </div>
+
+                <p class="alert-description">
+                    A major healthcare provider has fallen victim to a ransomware attack, with patient data potentially exposed. The threat actor is demanding $5M in cryptocurrency for data restoration.
+                </p>
+
+                <div class="alert-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Records Exposed:</span>
+                        <span class="detail-value">2.5M+ Patient Records</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Data Types:</span>
+                        <span class="detail-value">Medical, Financial, Personal</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Ransom Demand:</span>
+                        <span class="detail-value">$5,000,000 BTC</span>
+                    </div>
+                </div>
+
+                <div class="alert-tags">
+                    <span class="tag critical">Ransomware</span>
+                    <span class="tag critical">Data Breach</span>
+                    <span class="tag critical">Healthcare</span>
+                    <span class="tag critical">APT</span>
+                </div>
+
+                <div class="alert-actions">
+                    <button class="btn-sm-primary">View Details</button>
+                    <button class="btn-sm-secondary">Report Similar</button>
+                    <button class="btn-sm-secondary">Share Alert</button>
+                </div>
+            </div>
+
+            <!-- High Alert 2 -->
+            <div class="alert-card alert-high">
+                <div class="alert-header">
+                    <div class="alert-title-section">
+                        <span class="alert-severity high">🟠 HIGH</span>
+                        <h3 class="alert-title">Malware Distribution Campaign - Banking Trojan</h3>
+                    </div>
+                    <span class="alert-time">5 hours ago</span>
+                </div>
+
+                <p class="alert-description">
+                    A new banking trojan malware is being distributed through malicious email attachments and compromised websites. The malware targets online banking sessions and steals credentials.
+                </p>
+
+                <div class="alert-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Malware Type:</span>
+                        <span class="detail-value">Banking Trojan</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Distribution Method:</span>
+                        <span class="detail-value">Email & Malicious URLs</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Infected Systems:</span>
+                        <span class="detail-value">3,200+ Identified</span>
+                    </div>
+                </div>
+
+                <div class="alert-tags">
+                    <span class="tag high">Malware</span>
+                    <span class="tag high">Banking Trojan</span>
+                    <span class="tag high">Credential Theft</span>
+                </div>
+
+                <div class="alert-actions">
+                    <button class="btn-sm-primary">View Details</button>
+                    <button class="btn-sm-secondary">Report Similar</button>
+                    <button class="btn-sm-secondary">Share Alert</button>
+                </div>
+            </div>
+
+            <!-- Medium Alert 1 -->
+            <div class="alert-card alert-medium">
+                <div class="alert-header">
+                    <div class="alert-title-section">
+                        <span class="alert-severity medium">🟡 MEDIUM</span>
+                        <h3 class="alert-title">Data Breach - E-commerce Platform - 50K Records</h3>
+                    </div>
+                    <span class="alert-time">8 hours ago</span>
+                </div>
+
+                <p class="alert-description">
+                    A small e-commerce platform has been compromised, exposing customer records including emails and phone numbers. The breach is suspected to be due to an unpatched vulnerability.
+                </p>
+
+                <div class="alert-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Records Exposed:</span>
+                        <span class="detail-value">50,000</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Data Exposed:</span>
+                        <span class="detail-value">Emails, Phones, Addresses</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Vulnerability:</span>
+                        <span class="detail-value">CVE-2024-12345 (Unpatched)</span>
+                    </div>
+                </div>
+
+                <div class="alert-tags">
+                    <span class="tag medium">Data Breach</span>
+                    <span class="tag medium">E-commerce</span>
+                    <span class="tag medium">Unpatched</span>
+                </div>
+
+                <div class="alert-actions">
+                    <button class="btn-sm-primary">View Details</button>
+                    <button class="btn-sm-secondary">Report Similar</button>
+                    <button class="btn-sm-secondary">Share Alert</button>
+                </div>
+            </div>
+
+            <!-- Low Alert 1 -->
+            <div class="alert-card alert-low">
+                <div class="alert-header">
+                    <div class="alert-title-section">
+                        <span class="alert-severity low">🟢 LOW</span>
+                        <h3 class="alert-title">Suspicious Domain Registration - Monitor</h3>
+                    </div>
+                    <span class="alert-time">12 hours ago</span>
+                </div>
+
+                <p class="alert-description">
+                    A new domain has been registered with characteristics similar to known phishing domains. Recommend monitoring for potential malicious activity.
+                </p>
+
+                <div class="alert-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Domain:</span>
+                        <span class="detail-value">bank-service-portal.xyz</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Risk Level:</span>
+                        <span class="detail-value">Potential Phishing</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Registration Date:</span>
+                        <span class="detail-value">Today</span>
+                    </div>
+                </div>
+
+                <div class="alert-tags">
+                    <span class="tag low">Monitoring</span>
+                    <span class="tag low">Domain</span>
+                    <span class="tag low">Suspicious</span>
+                </div>
+
+                <div class="alert-actions">
+                    <button class="btn-sm-primary">View Details</button>
+                    <button class="btn-sm-secondary">Report Similar</button>
+                    <button class="btn-sm-secondary">Share Alert</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="load-more-section">
+            <button class="btn-secondary btn-large" id="loadMoreBtn">Load More Alerts</button>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/alerts.js' %}"></script>
+{% endblock %}

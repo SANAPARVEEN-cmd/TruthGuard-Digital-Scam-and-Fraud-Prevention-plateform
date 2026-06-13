@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - TruthGuard{% endblock %}
+
+{% block content %}
+
+<section class="auth-page">
+    <div class="auth-background">
+        <div class="cyber-grid"></div>
+        <div class="particles"></div>
+    </div>
+
+    <div class="auth-container">
+        <!-- Left Column - Branding -->
+        <div class="auth-branding">
+            <div class="branding-content">
+                <h1>TruthGuard</h1>
+                <p>Advanced Fraud Detection & Prevention</p>
+                
+                <div class="features-list">
+                    <div class="feature">
+                        <span class="icon">✓</span>
+                        <span>Real-time threat intelligence</span>
+                    </div>
+                    <div class="feature">
+                        <span class="icon">✓</span>
+                        <span>Multi-entity analysis</span>
+                    </div>
+                    <div class="feature">
+                        <span class="icon">✓</span>
+                        <span>Enterprise-grade security</span>
+                    </div>
+                    <div class="feature">
+                        <span class="icon">✓</span>
+                        <span>24/7 fraud monitoring</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column - Login Form -->
+        <div class="auth-form-container">
+            <div class="form-card">
+                <div class="form-header">
+                    <h2>Welcome Back</h2>
+                    <p>Sign in to your account</p>
+                </div>
+
+                <form class="auth-form" id="loginForm">
+                    <!-- Email Field -->
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input"
+                            placeholder="you@example.com"
+                            required
+                        >
+                        <span class="form-error" style="display: none;"></span>
+                    </div>
+
+                    <!-- Password Field -->
+                    <div class="form-group">
+                        <div class="password-header">
+                            <label for="password" class="form-label">Password</label>
+                            <a href="/forgot-password/" class="forgot-link">Forgot?</a>
+                        </div>
+                        <div class="password-input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                class="form-input"
+                                placeholder="••••••••"
+                                required
+                            >
+                            <button type="button" class="toggle-password" title="Show password">👁️</button>
+                        </div>
+                        <span class="form-error" style="display: none;"></span>
+                    </div>
+
+                    <!-- Remember Me -->
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="rememberMe" name="remember_me">
+                        <label for="rememberMe" class="checkbox-label">
+                            Remember me on this device
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn-primary btn-large btn-block">
+                        Sign In
+                    </button>
+
+                    <!-- Divider -->
+                    <div class="form-divider">
+                        <span>or</span>
+                    </div>
+
+                    <!-- Social Login -->
+                    <div class="social-login">
+                        <button type="button" class="social-button google">
+                            <span class="social-icon">G</span>
+                            Continue with Google
+                        </button>
+                        <button type="button" class="social-button microsoft">
+                            <span class="social-icon">⊞</span>
+                            Continue with Microsoft
+                        </button>
+                    </div>
+
+                    <!-- Sign Up Link -->
+                    <div class="form-footer">
+                        <p>Don't have an account? 
+                            <a href="/register/" class="link-text">Sign up here</a>
+                        </p>
+                    </div>
+                </form>
+
+                <!-- Security Notice -->
+                <div class="security-notice">
+                    <span class="icon">🔒</span>
+                    <p>Your login information is encrypted and secure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Floating Particles -->
+<div class="background-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/auth.js' %}"></script>
+{% endblock %}

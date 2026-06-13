@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+
+{% block title %}Report Scam - TruthGuard{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="page-header">
+    <div class="container">
+        <h1>Report Suspicious Activity</h1>
+        <p>Help protect the community by reporting fraud and scams</p>
+    </div>
+</section>
+
+<!-- Report Form Section -->
+<section class="report-section">
+    <div class="container">
+        <div class="form-container">
+            <h2>Scam Report Form</h2>
+            <p class="form-description">
+                Your report helps us identify and prevent fraud. All information is kept confidential and used for threat intelligence analysis.
+            </p>
+
+            <form class="report-form" id="reportForm">
+                <!-- Entity Type Selection -->
+                <div class="form-group">
+                    <label for="entityType" class="form-label">
+                        Entity Type <span class="required">*</span>
+                    </label>
+                    <select id="entityType" name="entity_type" class="form-select" required>
+                        <option value="">Select entity type...</option>
+                        <option value="phone">📱 Phone Number</option>
+                        <option value="email">📧 Email Address</option>
+                        <option value="url">🔗 Website URL</option>
+                        <option value="domain">🌐 Domain</option>
+                        <option value="username">👤 Username/Account</option>
+                        <option value="ip">🖥️ IP Address</option>
+                        <option value="other">❓ Other</option>
+                    </select>
+                </div>
+
+                <!-- Entity Value -->
+                <div class="form-group">
+                    <label for="entityValue" class="form-label">
+                        Entity Value <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="text" 
+                        id="entityValue" 
+                        name="entity_value" 
+                        class="form-input" 
+                        placeholder="Enter the phone number, email, URL, etc."
+                        required
+                    >
+                    <span class="form-hint">Be as specific as possible for accurate analysis</span>
+                </div>
+
+                <!-- Fraud Category -->
+                <div class="form-group">
+                    <label for="fraudCategory" class="form-label">
+                        Fraud Category <span class="required">*</span>
+                    </label>
+                    <select id="fraudCategory" name="fraud_category" class="form-select" required>
+                        <option value="">Select fraud type...</option>
+                        <option value="phishing">🎣 Phishing</option>
+                        <option value="romance">💔 Romance Scam</option>
+                        <option value="financial">💰 Financial Fraud</option>
+                        <option value="identity">👤 Identity Theft</option>
+                        <option value="bec">💼 Business Email Compromise</option>
+                        <option value="vishing">📞 Vishing (Voice Phishing)</option>
+                        <option value="smishing">💬 Smishing (SMS Phishing)</option>
+                        <option value="malware">🦠 Malware Distribution</option>
+                        <option value="crypto">₿ Crypto/Investment Scam</option>
+                        <option value="tech-support">🛠️ Tech Support Scam</option>
+                        <option value="lottery">🎰 Lottery/Prize Scam</option>
+                        <option value="other">❓ Other</option>
+                    </select>
+                </div>
+
+                <!-- Incident Date -->
+                <div class="form-group">
+                    <label for="incidentDate" class="form-label">
+                        When did this occur? <span class="required">*</span>
+                    </label>
+                    <input 
+                        type="date" 
+                        id="incidentDate" 
+                        name="incident_date" 
+                        class="form-input"
+                        required
+                    >
+                </div>
+
+                <!-- Description -->
+                <div class="form-group">
+                    <label for="description" class="form-label">
+                        Description of Incident <span class="required">*</span>
+                    </label>
+                    <textarea 
+                        id="description" 
+                        name="description" 
+                        class="form-textarea" 
+                        rows="6"
+                        placeholder="Describe what happened, how you were contacted, what information was requested, and any other relevant details..."
+                        required
+                    ></textarea>
+                    <span class="form-hint">Be detailed - include conversation details, timing, and any suspicious requests</span>
+                </div>
+
+                <!-- Amount Lost -->
+                <div class="form-group">
+                    <label for="amountLost" class="form-label">
+                        Financial Loss (if applicable)
+                    </label>
+                    <div class="input-with-currency">
+                        <span class="currency-symbol">$</span>
+                        <input 
+                            type="number" 
+                            id="amountLost" 
+                            name="amount_lost" 
+                            class="form-input" 
+                            placeholder="0.00"
+                            min="0"
+                            step="0.01"
+                        >
+                    </div>
+                </div>
+
+                <!-- Evidence Upload Section -->
+                <div class="form-group">
+                    <label class="form-label">Evidence Attachments</label>
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-icon">📎</div>
+                        <p class="upload-text">Drag and drop files or click to upload</p>
+                        <p class="upload-subtext">Screenshots, emails, messages, documents (Max 10MB total)</p>
+                        <input type="file" id="fileInput" multiple hidden accept="image/*,.pdf,.doc,.docx,.txt">
+                    </div>
+                    <div class="uploaded-files" id="uploadedFiles"></div>
+                </div>
+
+                <!-- Personal Information (Optional) -->
+                <div class="form-section">
+                    <h3 class="form-section-title">Optional Contact Information</h3>
+                    <p class="form-section-hint">This helps us follow up if we need clarification about your report</p>
+
+                    <div class="form-group">
+                        <label for="reporterName" class="form-label">Full Name</label>
+                        <input 
+                            type="text" 
+                            id="reporterName" 
+                            name="reporter_name" 
+                            class="form-input" 
+                            placeholder="Your name"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reporterEmail" class="form-label">Email Address</label>
+                        <input 
+                            type="email" 
+                            id="reporterEmail" 
+                            name="reporter_email" 
+                            class="form-input" 
+                            placeholder="your@email.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="reporterPhone" class="form-label">Phone Number</label>
+                        <input 
+                            type="tel" 
+                            id="reporterPhone" 
+                            name="reporter_phone" 
+                            class="form-input" 
+                            placeholder="(555) 123-4567"
+                        >
+                    </div>
+                </div>
+
+                <!-- Consent Checkbox -->
+                <div class="form-group checkbox-group">
+                    <input 
+                        type="checkbox" 
+                        id="consentCheckbox" 
+                        name="consent"
+                        required
+                    >
+                    <label for="consentCheckbox" class="checkbox-label">
+                        I confirm that the information provided is accurate and I allow this data to be used for fraud prevention and research
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary btn-large">
+                        <span class="btn-icon">📤</span>
+                        Submit Report
+                    </button>
+                    <button type="reset" class="btn-secondary btn-large">Clear Form</button>
+                </div>
+
+                <p class="form-notice">
+                    🔒 Your report is secure and confidential. All personal information is encrypted and protected.
+                </p>
+            </form>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="info-section">
+            <div class="info-card">
+                <div class="info-card-icon">❓</div>
+                <h3>What Makes a Good Report?</h3>
+                <ul>
+                    <li>Include specific details about the incident</li>
+                    <li>Provide exact dates and times</li>
+                    <li>List all contact methods used</li>
+                    <li>Describe what the scammer requested</li>
+                    <li>Include financial amounts if applicable</li>
+                    <li>Provide any evidence (screenshots, messages)</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <div class="info-card-icon">🚨</div>
+                <h3>If You're in Immediate Danger</h3>
+                <ul>
+                    <li>Contact local law enforcement (911 in US)</li>
+                    <li>Report to FBI IC3 at ic3.gov</li>
+                    <li>Contact your bank if financial fraud</li>
+                    <li>Freeze your credit if identity theft</li>
+                    <li>File a report with FTC at reportfraud.ftc.gov</li>
+                </ul>
+            </div>
+
+            <div class="info-card">
+                <div class="info-card-icon">💡</div>
+                <h3>Report Privacy</h3>
+                <ul>
+                    <li>Your identity is protected</li>
+                    <li>We never share personal information</li>
+                    <li>Reports are used for threat intelligence</li>
+                    <li>Data helps improve fraud detection</li>
+                    <li>Encrypted storage and transmission</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Success Modal -->
+<div class="modal" id="successModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>✓ Report Submitted Successfully</h2>
+        </div>
+        <div class="modal-body">
+            <p>Thank you for helping protect the community! Your report has been received and will be analyzed by our threat intelligence team.</p>
+            <p class="modal-reference">Report ID: <strong>#RFP-2024-001847</strong></p>
+            <p>You'll receive updates on your report via email.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn-primary" id="closeSuccessModal">Continue</button>
+            <a href="/search/" class="btn-secondary">Analyze Another Entity</a>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" id="modalBackdrop"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/report.js' %}"></script>
+{% endblock %}

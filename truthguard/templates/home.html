@@ -1,0 +1,345 @@
+{% extends 'base.html' %}
+
+{% block title %}TruthGuard - Digital Scam & Fraud Prevention{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-background">
+        <div class="cyber-grid"></div>
+        <div class="particles"></div>
+    </div>
+
+    <div class="hero-content">
+        <h1 class="hero-title">TruthGuard</h1>
+        <p class="hero-subtitle">Digital Scam & Fraud Prevention System</p>
+        <p class="hero-description">Advanced threat intelligence, real-time fraud detection, and comprehensive digital entity analysis to protect you from scams.</p>
+        
+        <div class="hero-buttons">
+            <a href="/search/" class="btn-primary btn-large">
+                <span class="btn-icon">🔍</span>
+                Analyze Entity
+            </a>
+            <a href="/report/" class="btn-secondary btn-large">
+                <span class="btn-icon">📋</span>
+                Report Scam
+            </a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-item">
+                <span class="stat-number" data-target="45000">0</span>
+                <span class="stat-label">Threats Detected</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="12500">0</span>
+                <span class="stat-label">Entities Analyzed</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number" data-target="99.8">0</span>
+                <span class="stat-label">Accuracy %</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <span></span>
+    </div>
+</section>
+
+<!-- Statistics Section -->
+<section class="statistics">
+    <div class="container">
+        <h2 class="section-title">Threat Intelligence Dashboard</h2>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon danger">⚠️</div>
+                <h3>Critical Threats</h3>
+                <p class="stat-value">1,243</p>
+                <p class="stat-change positive">↑ 15% This Week</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon warning">🔔</div>
+                <h3>High Risk Entities</h3>
+                <p class="stat-value">3,891</p>
+                <p class="stat-change positive">↑ 8% This Week</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon success">✓</div>
+                <h3>Verified Safe</h3>
+                <p class="stat-value">8,456</p>
+                <p class="stat-change positive">↑ 12% This Week</p>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon accent">📊</div>
+                <h3>Analyzed Today</h3>
+                <p class="stat-value">2,145</p>
+                <p class="stat-change neutral">→ Continuous</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Why Choose TruthGuard?</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Advanced Detection</h3>
+                <p>AI-powered threat detection algorithms analyze digital entities in real-time with high accuracy.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Multi-Entity Analysis</h3>
+                <p>Check phone numbers, emails, URLs, domains, and IP addresses from a single unified platform.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Results</h3>
+                <p>Get comprehensive threat assessment within seconds, not hours.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Community Reports</h3>
+                <p>Contribute to and access crowd-sourced fraud intelligence from millions of users.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Threat Analytics</h3>
+                <p>Track fraud trends, patterns, and emerging threats through comprehensive dashboards.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <h3>Enterprise Security</h3>
+                <p>Bank-grade encryption and compliance with international security standards.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="container">
+        <h2 class="section-title">How TruthGuard Works</h2>
+        
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Enter Entity</h3>
+                <p>Input a phone number, email, URL, or IP address</p>
+            </div>
+
+            <div class="process-arrow">→</div>
+
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>AI Analysis</h3>
+                <p>Advanced algorithms process against global threat database</p>
+            </div>
+
+            <div class="process-arrow">→</div>
+
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>Get Report</h3>
+                <p>Receive detailed threat intelligence and risk assessment</p>
+            </div>
+
+            <div class="process-arrow">→</div>
+
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Take Action</h3>
+                <p>Block, report, or monitor suspicious entities</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fraud Intelligence Overview -->
+<section class="fraud-intelligence">
+    <div class="container">
+        <h2 class="section-title">Fraud Intelligence Overview</h2>
+        
+        <div class="intelligence-grid">
+            <div class="intelligence-card">
+                <h3>🎁 Romance Scams</h3>
+                <p>Deceptive relationship schemes targeting emotions and trust to extract money or personal information.</p>
+                <div class="threat-badge high">High Threat</div>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>💼 Business Email Compromise</h3>
+                <p>Sophisticated phishing attacks targeting business communications to divert payments or data.</p>
+                <div class="threat-badge critical">Critical</div>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>🏦 Financial Fraud</h3>
+                <p>Unauthorized transactions, account takeovers, and payment fraud schemes.</p>
+                <div class="threat-badge high">High Threat</div>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>🔗 Phishing Attacks</h3>
+                <p>Malicious links and fake websites designed to capture credentials and sensitive data.</p>
+                <div class="threat-badge critical">Critical</div>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>👤 Identity Theft</h3>
+                <p>Unauthorized use of personal information for fraudulent purposes and account access.</p>
+                <div class="threat-badge high">High Threat</div>
+            </div>
+
+            <div class="intelligence-card">
+                <h3>📞 Vishing & Smishing</h3>
+                <p>Voice and SMS-based social engineering attacks to manipulate victims into revealing secrets.</p>
+                <div class="threat-badge medium">Medium Threat</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Threat Alerts -->
+<section class="latest-alerts">
+    <div class="container">
+        <h2 class="section-title">Latest Threat Alerts</h2>
+        
+        <div class="alerts-list">
+            <div class="alert-item alert-critical">
+                <div class="alert-header">
+                    <span class="alert-badge critical">CRITICAL</span>
+                    <span class="alert-time">2 minutes ago</span>
+                </div>
+                <h4>Major Phishing Campaign Detected</h4>
+                <p>A coordinated phishing attack targeting financial institutions with 15K+ suspicious domains identified.</p>
+                <div class="alert-tags">
+                    <span class="tag">Phishing</span>
+                    <span class="tag">Financial</span>
+                    <span class="tag">Active</span>
+                </div>
+            </div>
+
+            <div class="alert-item alert-high">
+                <div class="alert-header">
+                    <span class="alert-badge high">HIGH</span>
+                    <span class="alert-time">1 hour ago</span>
+                </div>
+                <h4>Romance Scam Network Exposed</h4>
+                <p>Fraud investigation uncovered a network of 200+ accounts operating romance scams across platforms.</p>
+                <div class="alert-tags">
+                    <span class="tag">Romance Scam</span>
+                    <span class="tag">Network</span>
+                    <span class="tag">Investigation</span>
+                </div>
+            </div>
+
+            <div class="alert-item alert-high">
+                <div class="alert-header">
+                    <span class="alert-badge high">HIGH</span>
+                    <span class="alert-time">3 hours ago</span>
+                </div>
+                <h4>Malware Distribution Campaign</h4>
+                <p>Detection of malware delivery infrastructure with compromised domains and suspicious IP ranges.</p>
+                <div class="alert-tags">
+                    <span class="tag">Malware</span>
+                    <span class="tag">Distribution</span>
+                    <span class="tag">Infrastructure</span>
+                </div>
+            </div>
+
+            <div class="alert-item alert-medium">
+                <div class="alert-header">
+                    <span class="alert-badge medium">MEDIUM</span>
+                    <span class="alert-time">5 hours ago</span>
+                </div>
+                <h4>Data Breach - 50K Records Exposed</h4>
+                <p>A compromised e-commerce platform leaked customer data including emails and phone numbers.</p>
+                <div class="alert-tags">
+                    <span class="tag">Data Breach</span>
+                    <span class="tag">Exposure</span>
+                    <span class="tag">E-commerce</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="view-all-center">
+            <a href="/alerts/" class="btn-primary">View All Alerts</a>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="container">
+        <h2 class="section-title">User Testimonials</h2>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"TruthGuard saved me from a scam. I checked a phone number that called me and found it was flagged as high risk. Highly recommend!"</p>
+                <div class="testimonial-author">
+                    <span class="author-name">Sarah Johnson</span>
+                    <span class="author-title">Verified User</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"As a business owner, I use TruthGuard to verify emails and URLs. It's become essential to my security workflow."</p>
+                <div class="testimonial-author">
+                    <span class="author-name">Michael Chen</span>
+                    <span class="author-title">Business Owner</span>
+                </div>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"The dashboard is intuitive and the alerts keep me informed about emerging threats. Best fraud detection tool I've used."</p>
+                <div class="testimonial-author">
+                    <span class="author-name">Emily Rodriguez</span>
+                    <span class="author-title">IT Security Professional</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Protect Yourself?</h2>
+            <p>Start analyzing entities and protecting against fraud today. It's free to get started.</p>
+            
+            <div class="cta-buttons">
+                <a href="/search/" class="btn-primary btn-large">Start Analyzing</a>
+                <a href="/dashboard/" class="btn-secondary btn-large">View Dashboard</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Floating Particles Background for entire page -->
+<div class="background-particles"></div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
+{% endblock %}

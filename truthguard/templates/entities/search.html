@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Entity Search - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>Entity Verification</h1>
+        <p>Search phone numbers, emails, and websites for fraud risk</p>
+    </div>
+</section>
+
+<section class="search-section">
+    <div class="container">
+        <div class="search-container glass-card">
+            <h2>Verify Suspicious Entity</h2>
+            <form method="post" class="search-form" id="searchForm">
+                {% csrf_token %}
+                <div class="search-input-wrapper">
+                    <input type="text" name="query" id="entityInput" class="search-input"
+                           placeholder="Enter phone, email, or website URL..."
+                           value="{{ form.query.value|default:'' }}" autocomplete="off" required>
+                    <button type="submit" class="btn-search btn-primary">
+                        <span>🔍</span> Analyze
+                    </button>
+                </div>
+                {% if form.query.errors %}
+                <p class="form-error">{{ form.query.errors.0 }}</p>
+                {% endif %}
+                <p class="search-hint">Entity type is detected automatically</p>
+            </form>
+            <div class="quick-examples">
+                <p>Try examples:</p>
+                <div class="examples-list">
+                    <button type="button" class="example-btn" data-value="+15559876543">+15559876543</button>
+                    <button type="button" class="example-btn" data-value="scam-alert@fake-bank.xyz">scam-alert@fake-bank.xyz</button>
+                    <button type="button" class="example-btn" data-value="https://fake-bank.xyz">fake-bank.xyz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if entity %}
+<section class="results-section fade-in" id="resultsSection">
+    <div class="container">
+        <div class="results-grid">
+            <div class="result-card glass-card">
+                <h3>Entity Information</h3>
+                <div class="entity-info">
+                    <div class="info-row"><span>Type</span><strong>{{ entity.get_entity_type_display }}</strong></div>
+                    <div class="info-row"><span>Value</span><strong>{{ entity.entity_value }}</strong></div>
+                    <div class="info-row"><span>Status</span><strong>{{ entity.get_status_display }}</strong></div>
+                    <div class="info-row"><span>Reports</span><strong>{{ entity.report_count }}</strong></div>
+                    <div class="info-row"><span>Last Updated</span><strong>{{ entity.updated_at|timesince }} ago</strong></div>
+                </div>
+            </div>
+
+            <div class="result-card glass-card risk-meter-card">
+                <h3>Risk Assessment</h3>
+                <div class="risk-meter" data-score="{{ entity.risk_score }}">
+                    <svg class="risk-circle" viewBox="0 0 120 120">
+                        <circle class="risk-bg" cx="60" cy="60" r="54"/>
+                        <circle class="risk-progress threat-{{ entity.threat_level }}" cx="60" cy="60" r="54"
+                                data-score="{{ entity.risk_score }}"/>
+                    </svg>
+                    <div class="risk-score-text">
+                        <span class="score-number">{{ entity.risk_score }}</span>
+                        <span class="score-label">/ 100</span>
+                    </div>
+                </div>
+                <div class="threat-badge {{ entity.threat_level }}">{{ entity.get_threat_level_display }} Threat</div>
+            </div>
+
+            <div class="result-card glass-card full-width">
+                <h3>Risk Explanation</h3>
+                <ul class="explanation-list">
+                    {% for reason in risk_result.explanation %}
+                    <li>{{ reason }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        {% if historical_reports %}
+        <div class="result-card glass-card">
+            <h3>Historical Reports</h3>
+            <div class="reports-table">
+                {% for report in historical_reports %}
+                <div class="report-row">
+                    <div class="report-meta">
+                        <span>{{ report.created_at|date:"M d, Y" }}</span>
+                        {% if report.reporter %}<span>by {{ report.reporter.username }}</span>{% endif %}
+                    </div>
+                    <p>{{ report.description|truncatewords:25 }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if related_alerts %}
+        <div class="result-card glass-card">
+            <h3>Related Alerts</h3>
+            {% for alert in related_alerts %}
+            <div class="alert-item alert-{{ alert.severity }}">
+                <span class="alert-badge {{ alert.severity }}">{{ alert.severity|upper }}</span>
+                <h4>{{ alert.title }}</h4>
+                <p>{{ alert.description|truncatewords:20 }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="results-actions">
+            <a href="{% url 'report' %}" class="btn-primary">Report This Entity</a>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/search.js' %}"></script>
+{% endblock %}

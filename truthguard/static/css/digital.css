@@ -1,0 +1,467 @@
+/* ==========================================================
+   TruthGuard - Digital Cyber Security Theme
+   Modern, Premium Enterprise Styling
+   File: digital.css
+   Notes: HTML/JS unchanged. Add this stylesheet to base.html if desired.
+   ========================================================== */
+
+:root {
+  /* Tokens (from project palette) */
+  --bg-primary: #020617;
+  --bg-secondary: #0F172A;
+  --bg-tertiary: #1E293B;
+
+  --accent: #06B6D4;
+  --accent-2: #3B82F6;
+
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --critical: #DC2626;
+
+  --text-primary: #F8FAFC;
+  --text-muted: #94A3B8;
+
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(6, 182, 212, 0.28);
+
+  /* Layout */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 24px;
+  --spacing-6: 32px;
+  --spacing-7: 48px;
+  --spacing-8: 64px;
+
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  /* Typography */
+  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+
+  --fs-1: 0.85rem;
+  --fs-2: 0.95rem;
+  --fs-3: 1.05rem;
+  --fs-4: 1.2rem;
+  --fs-5: 1.5rem;
+  --fs-6: 1.85rem;
+  --fs-7: 2.4rem;
+  --fs-8: 3rem;
+
+  --shadow-1: 0 8px 30px rgba(0, 0, 0, 0.35);
+  --shadow-2: 0 12px 45px rgba(0, 0, 0, 0.45);
+  --shadow-glow: 0 0 26px rgba(6, 182, 212, 0.25);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --t-fast: 160ms;
+  --t-normal: 260ms;
+  --t-slow: 520ms;
+
+  /* Focus ring */
+  --ring: 0 0 0 3px rgba(6, 182, 212, 0.22);
+}
+
+/* ==========================================================
+   Base
+   ========================================================== */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(6, 182, 212, 0.12), transparent 55%),
+              radial-gradient(1000px 500px at 85% 20%, rgba(59, 130, 246, 0.10), transparent 55%),
+              var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(6, 182, 212, 0.65), rgba(59, 130, 246, 0.65));
+  border-radius: 999px;
+  border: 2px solid rgba(15, 23, 42, 0.8);
+}
+::-webkit-scrollbar-thumb:hover { filter: brightness(1.12); }
+
+/* Selection */
+::selection { background: rgba(6, 182, 212, 0.25); color: var(--text-primary); }
+
+/* ==========================================================
+   Glass + Surfaces
+   ========================================================== */
+
+.glass {
+  background: rgba(15, 23, 42, 0.56);
+  border: 1px solid var(--border-color);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.glass-strong {
+  background: rgba(15, 23, 42, 0.68);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+.glow-border {
+  position: relative;
+}
+
+.glow-border::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.35), rgba(59, 130, 246, 0.25));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.65;
+}
+
+/* ==========================================================
+   Cyber Grid / Mesh Backgrounds
+   ========================================================== */
+
+.background-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(6, 182, 212, 0.10), transparent 35%),
+    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.10), transparent 35%),
+    radial-gradient(circle at 65% 65%, rgba(34, 197, 94, 0.06), transparent 35%);
+}
+
+/* If hero uses .cyber-grid already */
+.cyber-grid {
+  background-image:
+    linear-gradient(rgba(6, 182, 212, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6, 182, 212, 0.10) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(6, 182, 212, 0.08), transparent 60%);
+  background-size: 42px 42px, 42px 42px, auto;
+}
+
+/* ==========================================================
+   Navbar + Footer Enhancements
+   ========================================================== */
+
+.navbar {
+  box-shadow: 0 10px 36px rgba(0,0,0,0.35);
+}
+
+.nav-link {
+  text-transform: none;
+  letter-spacing: 0.2px;
+}
+
+.nav-link:focus,
+.nav-auth a:focus,
+.sidebar-link:focus {
+  outline: none;
+  box-shadow: var(--ring);
+  border-radius: 10px;
+}
+
+.footer {
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+/* ==========================================================
+   Buttons (Premium SOC)
+   ========================================================== */
+
+.btn-primary,
+.btn-secondary,
+.btn-large,
+.btn-small,
+.btn-icon-secondary,
+.btn-sm-primary,
+.btn-sm-secondary {
+  will-change: transform;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 1), rgba(59, 130, 246, 1));
+  box-shadow: var(--shadow-glow);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 44px rgba(6, 182, 212, 0.35);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  color: var(--accent);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(6, 182, 212, 0.08);
+  box-shadow: 0 0 26px rgba(6, 182, 212, 0.18);
+}
+
+.btn-icon-secondary {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-color);
+}
+
+.btn-icon-secondary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(6, 182, 212, 0.35);
+}
+
+button:disabled,
+.btn-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  filter: grayscale(0.2);
+}
+
+/* ==========================================================
+   Cards / Panels
+   ========================================================== */
+
+.card,
+.detail-card,
+.kpi-card,
+.chart-card,
+.distribution-card,
+.intelligence-card,
+.testimonial-card,
+.alert-card,
+.entity-card,
+.activity-timeline,
+.search-container,
+.entity-header-card,
+.reports-table,
+.result-card,
+.modal {
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.card:hover,
+.detail-card:hover,
+.kpi-card:hover,
+.chart-card:hover,
+.distribution-card:hover,
+.intelligence-card:hover,
+.entity-card:hover,
+.result-card:hover,
+.testimonial-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-1);
+}
+
+/* ==========================================================
+   Table Styling
+   ========================================================== */
+
+.reports-table {
+  overflow: hidden;
+}
+
+.reports-table thead th {
+  background: linear-gradient(135deg, rgba(6, 182, 212, 0.14), rgba(59, 130, 246, 0.10));
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.reports-table tbody td {
+  color: rgba(248, 250, 252, 0.9);
+}
+
+.reports-table tr:hover {
+  background: rgba(6, 182, 212, 0.06);
+}
+
+/* ==========================================================
+   Threat Level Visuals
+   ========================================================== */
+
+.badge.critical,
+.tag.critical,
+.threat-badge.critical {
+  background: rgba(220, 38, 38, 0.14);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  color: #fecaca;
+}
+
+.badge.high,
+.tag.high,
+.threat-badge.high {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.32);
+  color: #fecdd3;
+}
+
+.badge.medium,
+.tag.medium,
+.threat-badge.medium {
+  background: rgba(245, 158, 11, 0.13);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fde68a;
+}
+
+.badge.low,
+.tag.low,
+.threat-badge.low {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.30);
+  color: #dcfce7;
+}
+
+/* Risk / Status chips */
+.status {
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.status.investigating {
+  background: rgba(245, 158, 11, 0.18);
+  border: 1px solid rgba(245, 158, 11, 0.30);
+}
+
+.status.confirmed {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid rgba(239, 68, 68, 0.30);
+}
+
+.status.resolved {
+  background: rgba(34, 197, 94, 0.16);
+  border: 1px solid rgba(34, 197, 94, 0.28);
+}
+
+/* ==========================================================
+   Forms (Enterprise)
+   ========================================================== */
+
+.form-input,
+.form-select,
+.form-textarea {
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: rgba(6, 182, 212, 0.55);
+  box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.18), 0 0 26px rgba(6, 182, 212, 0.15);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: rgba(148, 163, 184, 0.8);
+}
+
+.checkbox-group input[type="checkbox"]:focus,
+.checkbox-group input:focus {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.upload-area {
+  border-color: rgba(6, 182, 212, 0.55);
+  background: rgba(6, 182, 212, 0.06);
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.upload-area:hover {
+  background: rgba(6, 182, 212, 0.10);
+  box-shadow: 0 0 30px rgba(6, 182, 212, 0.16);
+}
+
+/* ==========================================================
+   Auth Page
+   ========================================================== */
+
+.auth-form-container {
+  z-index: 1;
+}
+
+.form-card {
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.security-notice {
+  background: rgba(34, 197, 94, 0.08);
+}
+
+/* ==========================================================
+   Animations / Micro-interactions
+   ========================================================== */
+
+@keyframes tg-fadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes tg-scanline {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 260px; }
+}
+
+.main-content {
+  animation: tg-fadeUp 420ms var(--ease) both;
+}
+
+/* Animated border flow */
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Floating particles (if used) */
+.particle {
+  animation: float 22s infinite;
+}
+
+/* Loading shimmer */
+.skeleton {
+  border-radius: 12px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ==========================================================
+   Responsiveness
+   ========================================================== */
+
+@media (max-width: 1024px) {
+  .container { padding: 0 var(--spacing-4); }
+}
+
+@media (max-width: 768px) {
+  .navbar-container { padding: 0 var(--spacing-4); }
+}
+
+@media (max-width: 480px) {
+  .container { padding: 0 var(--spacing-3); }
+}
+

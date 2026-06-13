@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Entity Details - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{{ entity.entity_value }}</h1>
+        <p>{{ entity.get_entity_type_display }} — {{ entity.get_threat_level_display }} Threat</p>
+    </div>
+</section>
+
+<section class="results-section">
+    <div class="container">
+        <div class="results-grid">
+            <div class="result-card glass-card risk-meter-card">
+                <h3>Risk Score</h3>
+                <div class="risk-meter" data-score="{{ entity.risk_score }}">
+                    <div class="risk-score-text">
+                        <span class="score-number">{{ entity.risk_score }}</span><span class="score-label">/100</span>
+                    </div>
+                </div>
+                <div class="threat-badge {{ entity.threat_level }}">{{ entity.get_threat_level_display }}</div>
+            </div>
+            <div class="result-card glass-card full-width">
+                <h3>Explanation</h3>
+                <ul class="explanation-list">
+                    {% for reason in risk_result.explanation %}
+                    <li>{{ reason }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+        <a href="{% url 'search' %}" class="btn-secondary">← Back to Search</a>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}TruthGuard - Verify Before You Trust{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-background">
+        <div class="cyber-grid"></div>
+    </div>
+    <div class="hero-content fade-in">
+        <span class="hero-badge">Digital Fraud Prevention Platform</span>
+        <h1 class="hero-title">Stop Scams Before They Happen</h1>
+        <p class="hero-tagline">Verify Before You Trust</p>
+        <p class="hero-description">Analyze suspicious phone numbers, emails, and websites. Get transparent risk assessments powered by community intelligence.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'search' %}" class="btn-primary btn-large ripple">Verify Entity</a>
+            <a href="{% url 'report' %}" class="btn-secondary btn-large ripple">Report Scam</a>
+        </div>
+        <div class="hero-illustration">
+            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop" alt="Cybersecurity" loading="lazy">
+        </div>
+    </div>
+    <div class="scroll-indicator"><span></span></div>
+</section>
+
+<section class="statistics reveal">
+    <div class="container">
+        <h2 class="section-title">Live Threat Intelligence</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon accent">📋</div>
+                <h3>Total Reports</h3>
+                <p class="stat-value counter" data-target="{{ stats.total_reports }}">0</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon secondary">🔍</div>
+                <h3>Total Entities</h3>
+                <p class="stat-value counter" data-target="{{ stats.total_entities }}">0</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon warning">🔔</div>
+                <h3>Active Alerts</h3>
+                <p class="stat-value counter" data-target="{{ stats.active_alerts }}">0</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon danger">⚠️</div>
+                <h3>Risk Detections</h3>
+                <p class="stat-value counter" data-target="{{ stats.risk_detections }}">0</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="how-it-works reveal">
+    <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-number">1</div>
+                <h3>Search Entity</h3>
+                <p>Enter a phone number, email, or website URL</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="step-number">2</div>
+                <h3>Analyze Risk</h3>
+                <p>Our engine evaluates community reports and patterns</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="step-number">3</div>
+                <h3>View Explanation</h3>
+                <p>Get transparent, explainable risk assessments</p>
+            </div>
+            <div class="process-arrow">→</div>
+            <div class="process-step">
+                <div class="step-number">4</div>
+                <h3>Stay Protected</h3>
+                <p>Monitor alerts and contribute reports</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features reveal">
+    <div class="container">
+        <h2 class="section-title">Platform Features</h2>
+        <div class="features-grid">
+            <div class="feature-card"><div class="feature-icon">🎯</div><h3>Risk Analysis</h3><p>Explainable risk scores based on verified community intelligence.</p></div>
+            <div class="feature-card"><div class="feature-icon">👥</div><h3>Community Reporting</h3><p>Crowd-sourced fraud reports from verified users worldwide.</p></div>
+            <div class="feature-card"><div class="feature-icon">🔔</div><h3>Fraud Alerts</h3><p>Real-time notifications about emerging scam campaigns.</p></div>
+            <div class="feature-card"><div class="feature-icon">🔬</div><h3>Pattern Detection</h3><p>Signature-based detection of known fraud patterns.</p></div>
+            <div class="feature-card"><div class="feature-icon">📊</div><h3>Transparency</h3><p>Every score comes with clear, human-readable reasons.</p></div>
+            <div class="feature-card"><div class="feature-icon">🛡️</div><h3>Threat Intelligence</h3><p>Comprehensive dashboards tracking fraud trends.</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="latest-alerts reveal">
+    <div class="container">
+        <h2 class="section-title">Latest Alerts</h2>
+        <div class="alerts-list">
+            {% for alert in latest_alerts %}
+            <div class="alert-item alert-{{ alert.severity }}">
+                <div class="alert-header">
+                    <span class="alert-badge {{ alert.severity }}">{{ alert.severity|upper }}</span>
+                    <span class="alert-time">{{ alert.created_at|timesince }} ago</span>
+                </div>
+                <h4>{{ alert.title }}</h4>
+                <p>{{ alert.description|truncatewords:30 }}</p>
+                <div class="alert-tags">
+                    <span class="tag">{{ alert.get_category_display }}</span>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No active alerts. The threat landscape is quiet.</p>
+            {% endfor %}
+        </div>
+        <div class="view-all-center">
+            <a href="{% url 'alerts' %}" class="btn-primary">View All Alerts</a>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section reveal">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Protect Yourself?</h2>
+            <p>Start verifying suspicious entities today. Prevention beats reaction.</p>
+            <div class="cta-buttons">
+                <a href="{% url 'search' %}" class="btn-primary btn-large">Start Verifying</a>
+                <a href="{% url 'dashboard' %}" class="btn-secondary btn-large">View Dashboard</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
