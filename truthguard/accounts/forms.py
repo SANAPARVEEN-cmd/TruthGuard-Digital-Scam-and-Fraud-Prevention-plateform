@@ -15,11 +15,31 @@ class RegisterForm(UserCreationForm):
             'password2': forms.PasswordInput(attrs={'class': 'form-input'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['email'].widget.attrs.update({'class': 'form-input'})
+   
+def __init__(self, *args, **kwargs):
+    super().__init__(*args, **kwargs)
 
-    def save(self, commit=True):
+    for field_name, field in self.fields.items():
+        field.widget.attrs.update({
+            'class': 'form-input'
+        })
+
+    self.fields['username'].widget.attrs.update({
+        'placeholder': 'Enter username'
+    })
+
+    self.fields['email'].widget.attrs.update({
+        'placeholder': 'Enter email'
+    })
+
+    self.fields['password1'].widget.attrs.update({
+        'placeholder': 'Create password'
+    })
+
+    self.fields['password2'].widget.attrs.update({
+        'placeholder': 'Confirm password'
+    })
+def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
         if commit:

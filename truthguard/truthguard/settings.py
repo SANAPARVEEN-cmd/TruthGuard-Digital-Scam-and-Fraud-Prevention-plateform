@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'alerts',
     'analytics',
     'dashboard',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -45,8 +46,12 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
+        'APP_DIRS': False,  # ← Changed to False
         'OPTIONS': {
+            'loaders': [  # ← Added explicit loader order
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',

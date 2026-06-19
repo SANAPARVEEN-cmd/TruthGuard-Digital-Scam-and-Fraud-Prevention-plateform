@@ -3,31 +3,193 @@
 {% block title %}Login - TruthGuard{% endblock %}
 
 {% block content %}
-<section class="auth-section">
-    <div class="auth-container glass-card fade-in">
-        <div class="auth-header">
-            <h1>Welcome Back</h1>
-            <p>Sign in to your TruthGuard account</p>
-        </div>
-        <form method="post" class="auth-form">
-            {% csrf_token %}
-            {% if form.non_field_errors %}
-            <div class="form-error">{{ form.non_field_errors.0 }}</div>
-            {% endif %}
-            <div class="form-group">
-                <label class="form-label">Username</label>
-                <input type="text" name="username" class="form-input" required autofocus>
+<main class="auth-page">
+
+    <div class="auth-container">
+
+        <!-- Left Branding Panel -->
+        <section class="auth-branding">
+
+            <div class="branding-content">
+
+                <h1>Welcome Back</h1>
+
+                <p>
+                    Sign in to continue protecting yourself from misinformation,
+                    verify news instantly, and access your personalized dashboard.
+                </p>
+
+                <div class="benefits-list">
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            🛡️
+                        </div>
+
+                        <div>
+                            <h3>AI Fact Checking</h3>
+                            <p>Verify articles and social media posts in seconds.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            ⚡
+                        </div>
+
+                        <div>
+                            <h3>Real-Time Detection</h3>
+                            <p>Identify fake news with advanced AI models.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            🔒
+                        </div>
+
+                        <div>
+                            <h3>Secure Account</h3>
+                            <p>Your personal data stays protected and encrypted.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="stats-box">
+
+                    <div class="stat">
+                        <span class="stat-number">99%</span>
+                        <span class="stat-text">Detection Accuracy</span>
+                    </div>
+
+                    <div class="stat">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-text">Verified Articles</span>
+                    </div>
+
+                </div>
+
             </div>
-            <div class="form-group">
-                <label class="form-label">Password</label>
-                <input type="password" name="password" class="form-input" required>
+
+        </section>
+
+        <!-- Login Form -->
+        <section class="auth-form-container">
+
+            <div class="form-card">
+
+                <div class="form-header">
+                    <h2>Sign In</h2>
+                    <p>Access your TruthGuard account.</p>
+                </div>
+
+                <form method="post" class="auth-form" novalidate>
+
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                    <div class="form-error">
+                        {{ form.non_field_errors.0 }}
+                    </div>
+                    {% endif %}
+
+                    <div class="form-group">
+
+                        <label for="id_username" class="form-label">
+                            Username
+                        </label>
+
+                        <input
+                            id="id_username"
+                            type="text"
+                            name="username"
+                            class="form-input"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                            autofocus>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="id_password" class="form-label">
+                            Password
+                        </label>
+
+                        <div class="password-input-wrapper">
+
+                            <input
+                                id="id_password"
+                                type="password"
+                                name="password"
+                                class="form-input"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required>
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                aria-label="Toggle password visibility">
+
+                                👁
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <button
+                            type="submit"
+                            class="btn-primary btn-large btn-block">
+
+                            Sign In
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+                <div class="form-footer">
+
+                    <p>
+                        <a href="{% url 'forgot_password' %}" class="link-text">
+                            Forgot your password?
+                        </a>
+                    </p>
+
+                    <p>
+                        Don't have an account?
+                        <a href="{% url 'register' %}" class="link-text">
+                            Create one
+                        </a>
+                    </p>
+
+                </div>
+
+                <div class="security-notice">
+
+                    <div class="icon">
+                        🔐
+                    </div>
+
+                    <p>
+                        Your login is protected using secure authentication and encrypted communication.
+                    </p>
+
+                </div>
+
             </div>
-            <button type="submit" class="btn-primary btn-full ripple">Sign In</button>
-        </form>
-        <div class="auth-links">
-            <a href="{% url 'forgot_password' %}">Forgot password?</a>
-            <a href="{% url 'register' %}">Create account</a>
-        </div>
+
+        </section>
+
     </div>
-</section>
+
+</main>
 {% endblock %}

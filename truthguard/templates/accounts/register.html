@@ -3,27 +3,65 @@
 {% block title %}Register - TruthGuard{% endblock %}
 
 {% block content %}
+
 <section class="auth-section">
     <div class="auth-container glass-card fade-in">
+
+        <!-- Header -->
         <div class="auth-header">
-            <h1>Join TruthGuard</h1>
-            <p>Create an account to report scams and track threats</p>
+            <h1>Create Your Account</h1>
+            <p>Join TruthGuard and stay protected from online scams.</p>
         </div>
-        <form method="post" class="auth-form">
+
+        <!-- Registration Form -->
+        <form method="POST" class="auth-form" novalidate>
             {% csrf_token %}
+
             {% for field in form %}
             <div class="form-group">
-                <label class="form-label">{{ field.label }}</label>
+
+                <label for="{{ field.id_for_label }}" class="form-label">
+                    {{ field.label }}
+                </label>
+
                 {{ field }}
-                {% if field.errors %}<p class="form-error">{{ field.errors.0 }}</p>{% endif %}
-                {% if field.help_text %}<p class="form-hint">{{ field.help_text }}</p>{% endif %}
+
+                {% if field.errors %}
+                    <div class="form-error">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <!-- Password help text removed intentionally -->
+
             </div>
             {% endfor %}
-            <button type="submit" class="btn-primary btn-full ripple">Create Account</button>
+
+            {% if form.non_field_errors %}
+                <div class="form-error">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="btn-primary btn-full ripple">
+                Create Account
+            </button>
+
         </form>
+
+        <!-- Footer -->
         <div class="auth-links">
-            <a href="{% url 'login' %}">Already have an account?</a>
+            <p>
+                Already have an account?
+                <a href="{% url 'login' %}">Sign In</a>
+            </p>
         </div>
+
     </div>
 </section>
+
 {% endblock %}
