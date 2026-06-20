@@ -3,16 +3,46 @@
 {% block title %}Report Submitted - TruthGuard{% endblock %}
 
 {% block content %}
-<section class="success-section">
+<section class="page-header">
     <div class="container">
-        <div class="success-card glass-card fade-in">
-            <div class="success-icon">✓</div>
-            <h1>Report Submitted</h1>
-            <p>Thank you for helping protect the community. Our moderation team will review your report shortly.</p>
-            <div class="success-actions">
-                <a href="{% url 'search' %}" class="btn-primary">Search Entities</a>
-                <a href="{% url 'report' %}" class="btn-secondary">Submit Another</a>
-            </div>
+        <h1>✅ Report Submitted!</h1>
+        <p>Thank you for helping protect the community.</p>
+    </div>
+</section>
+
+<section class="report-section">
+    <div class="container">
+        <div class="glass-card" style="text-align:center; padding:3rem 2rem; max-width:500px; margin:0 auto;">
+            
+            <div style="font-size:4rem; margin-bottom:1rem;">🛡️</div>
+            <h2 style="color:#06B6D4; margin-bottom:0.5rem;">Report Received</h2>
+            <p style="color:#94a3b8; margin-bottom:2rem;">
+                Your report is now <strong style="color:#fde047;">pending review</strong>. 
+                Our moderation team will approve it shortly.
+            </p>
+
+            <!-- ✅ MAIN BUTTON — View My Reports -->
+            <a href="{% url 'my_reports' %}" class="btn-primary btn-large" 
+               style="display:inline-block; margin-bottom:1rem; width:100%; text-align:center;">
+                📋 View My Reports
+            </a>
+
+            <!-- Submit another -->
+            <a href="{% url 'report' %}" class="btn-secondary" 
+               style="display:inline-block; width:100%; text-align:center; margin-bottom:1rem;">
+                ➕ Submit Another Report
+            </a>
+
+            <!-- Staff only — Moderation Queue -->
+            {% if user.is_staff %}
+            <a href="{% url 'moderation_queue' %}" 
+               style="display:inline-block; width:100%; text-align:center; padding:10px; 
+                      background:rgba(234,179,8,0.15); color:#fde047; border:1px solid rgba(234,179,8,0.3); 
+                      border-radius:8px; text-decoration:none; font-weight:600;">
+                ⚑ Go to Moderation Queue
+            </a>
+            {% endif %}
+
         </div>
     </div>
 </section>

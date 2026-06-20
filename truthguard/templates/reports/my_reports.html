@@ -1,0 +1,257 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}My Reports - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>My Reports</h1>
+        <p>Track the status of all scam reports you have submitted</p>
+    </div>
+</section>
+<!-- Add this RIGHT AFTER the page-header section, BEFORE the reports list -->
+<div style="display:flex; gap:1rem; margin-bottom:1.5rem; flex-wrap:wrap;">
+    <a href="{% url 'report' %}" class="btn-primary">➕ Submit New Report</a>
+    {% if user.is_staff %}
+    <a href="{% url 'moderation_queue' %}" 
+       style="padding:10px 20px; background:rgba(234,179,8,0.15); color:#fde047; 
+              border:1px solid rgba(234,179,8,0.3); border-radius:8px; 
+              text-decoration:none; font-weight:600;">
+        ⚑ Moderation Queue
+        {% with pending_count=pending_reports_count %}
+            {% if pending_count %}
+                <span style="background:#dc2626; color:white; border-radius:50%; 
+                             padding:1px 6px; font-size:0.75rem; margin-left:4px;">
+                    {{ pending_count }}
+                </span>
+            {% endif %}
+        {% endwith %}
+    </a>
+    {% endif %}
+</div>
+<section class="reports-section">
+
+    <div class="container">
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mb-lg">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        {% if page_obj.object_list %}
+        <div class="reports-list">
+            {% for report in page_obj %}
+            <div class="report-card glass-card">
+
+                <!-- Header row -->
+                <div class="report-card-header">
+                    <div class="report-meta">
+                        <span class="report-id">#{{ report.pk }}</span>
+                        <span class="entity-type-badge">{{ report.entity.get_entity_type_display }}</span>
+                        <span class="entity-value">{{ report.entity.entity_value }}</span>
+                    </div>
+                    <div class="report-status-wrap">
+                        {% if report.report_status == 'approved' %}
+                            <span class="status-badge approved">✓ Approved</span>
+                        {% elif report.report_status == 'rejected' %}
+                            <span class="status-badge rejected">✗ Rejected</span>
+                        {% else %}
+                            <span class="status-badge pending">⏳ Pending Review</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="report-body">
+                    <p class="report-description">{{ report.description }}</p>
+                </div>
+
+                <!-- Evidence — image preview OR file link -->
+                {% if report.evidence %}
+                <div class="report-evidence">
+                    <h4 class="evidence-label">📎 Evidence</h4>
+
+                    {% with report.evidence.name|lower as fname %}
+                        {% if '.jpg' in fname or '.jpeg' in fname or '.png' in fname or '.gif' in fname or '.webp' in fname %}
+                            <!-- Image preview -->
+                            <div class="evidence-image-wrap">
+                                <img src="{{ report.evidence.url }}"
+                                     alt="Evidence for report #{{ report.pk }}"
+                                     class="evidence-image"
+                                     loading="lazy">
+                            </div>
+                        {% elif '.pdf' in fname %}
+                            <a href="{{ report.evidence.url }}" target="_blank" class="evidence-file-link">
+                                📄 View PDF Evidence
+                            </a>
+                        {% else %}
+                            <a href="{{ report.evidence.url }}" target="_blank" class="evidence-file-link">
+                                📁 Download Evidence File
+                            </a>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                {% endif %}
+
+                <!-- Footer -->
+                <div class="report-card-footer">
+                    <span class="report-date">Submitted: {{ report.created_at|date:"M d, Y  H:i" }}</span>
+                    {% if report.report_status == 'approved' %}
+                    <span class="risk-score-inline">
+                        Risk score: <strong>{{ report.entity.risk_score }}/100</strong>
+                        &nbsp;|&nbsp;
+                        <span class="threat-level {{ report.entity.threat_level }}">
+                            {{ report.entity.threat_level|upper }}
+                        </span>
+                    </span>
+                    {% endif %}
+                    <a href="{% url 'report_detail' report.pk %}" class="btn-sm">View Full →</a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if page_obj.has_other_pages %}
+        <div class="pagination">
+            {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="page-btn">← Prev</a>
+            {% endif %}
+            <span class="page-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="page-btn">Next →</a>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        {% else %}
+        <div class="empty-state glass-card">
+            <div class="empty-icon">📋</div>
+            <h3>No reports yet</h3>
+            <p>You haven't submitted any scam reports. Help protect the community!</p>
+            <a href="{% url 'report' %}" class="btn-primary">Submit a Report</a>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.report-card {
+    margin-bottom: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.report-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.report-meta { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+.report-id   { font-family: monospace; color: #06B6D4; font-weight: 700; }
+.entity-type-badge {
+    background: rgba(6,182,212,0.15);
+    color: #06B6D4;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+.entity-value { color: #e2e8f0; font-weight: 600; word-break: break-all; }
+
+.status-badge {
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+.status-badge.approved { background: rgba(34,197,94,0.2);  color: #4ade80; }
+.status-badge.rejected { background: rgba(220,38,38,0.2);  color: #f87171; }
+.status-badge.pending  { background: rgba(234,179,8,0.15); color: #fde047; }
+
+.report-description { color: #94a3b8; line-height: 1.6; margin: 0; }
+
+.report-evidence { margin: 1rem 0; }
+.evidence-label  { color: #94a3b8; font-size: 0.85rem; margin-bottom: 0.5rem; }
+.evidence-image-wrap { border-radius: 8px; overflow: hidden; max-width: 480px; border: 1px solid rgba(255,255,255,0.1); }
+.evidence-image  { width: 100%; display: block; object-fit: cover; max-height: 320px; }
+.evidence-file-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: #06B6D4;
+    padding: 8px 16px;
+    border: 1px solid rgba(6,182,212,0.3);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+.evidence-file-link:hover { background: rgba(6,182,212,0.1); }
+
+.report-card-footer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    font-size: 0.85rem;
+    color: #64748b;
+}
+.risk-score-inline { margin-left: auto; }
+.threat-level.critical { color: #dc2626; }
+.threat-level.high     { color: #f97316; }
+.threat-level.medium   { color: #eab308; }
+.threat-level.low      { color: #22c55e; }
+.threat-level.safe     { color: #94a3b8; }
+
+.btn-sm {
+    padding: 5px 14px;
+    border: 1px solid rgba(6,182,212,0.4);
+    border-radius: 6px;
+    color: #06B6D4;
+    text-decoration: none;
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+.btn-sm:hover { background: rgba(6,182,212,0.1); }
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; }
+.empty-state h3 { margin-bottom: 0.5rem; }
+.empty-state p  { color: #94a3b8; margin-bottom: 1.5rem; }
+
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+.page-btn {
+    padding: 8px 18px;
+    border: 1px solid rgba(6,182,212,0.3);
+    border-radius: 8px;
+    color: #06B6D4;
+    text-decoration: none;
+}
+.page-info { color: #64748b; font-size: 0.9rem; }
+</style>
+{% endblock %}

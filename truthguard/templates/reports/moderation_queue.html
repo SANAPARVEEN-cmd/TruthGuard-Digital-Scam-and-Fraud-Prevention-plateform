@@ -1,0 +1,309 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Moderation Queue - TruthGuard{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>🛡 Moderation Queue</h1>
+        <p>Review, approve, or reject community-submitted reports</p>
+    </div>
+</section>
+
+<section class="moderation-section">
+    <div class="container">
+
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mb-lg">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <!-- Pending Reports ─────────────────────────────────────────────── -->
+        <div class="mod-block">
+            <div class="mod-block-header">
+                <h2>⏳ Pending Reports
+                    <span class="count-badge pending">{{ pending|length }}</span>
+                </h2>
+            </div>
+
+            {% if pending %}
+            <form method="post" action="{% url 'bulk_moderate' %}">
+                {% csrf_token %}
+                <div class="bulk-actions">
+                    <label class="select-all-wrap">
+                        <input type="checkbox" id="selectAll"> Select all
+                    </label>
+                    <button type="submit" name="action" value="approve" class="btn-approve-bulk">✓ Approve Selected</button>
+                    <button type="submit" name="action" value="reject"  class="btn-reject-bulk">✗ Reject Selected</button>
+                </div>
+
+                <div class="reports-list">
+                    {% for report in pending %}
+                    <div class="mod-card glass-card">
+
+                        <div class="mod-card-top">
+                            <label class="checkbox-wrap">
+                                <input type="checkbox" name="report_ids" value="{{ report.pk }}" class="report-checkbox">
+                            </label>
+
+                            <div class="mod-meta">
+                                <span class="report-id">#{{ report.pk }}</span>
+                                <span class="entity-type-badge">{{ report.entity.get_entity_type_display }}</span>
+                                <strong class="entity-value">{{ report.entity.entity_value }}</strong>
+                            </div>
+
+                            <div class="mod-actions">
+                                <form method="post" action="{% url 'approve_report' report.pk %}" style="display:inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-approve">✓ Approve</button>
+                                </form>
+                                <form method="post" action="{% url 'reject_report' report.pk %}" style="display:inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn-reject">✗ Reject</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Reporter info -->
+                        <div class="reporter-info">
+                            <span>👤 {{ report.reporter.username|default:"Anonymous" }}</span>
+                            <span>🕐 {{ report.created_at|date:"M d, Y H:i" }}</span>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="mod-description">{{ report.description }}</p>
+
+                        <!-- Evidence -->
+                        {% if report.evidence %}
+                        <div class="mod-evidence">
+                            <span class="evidence-label">📎 Evidence:</span>
+                            {% with report.evidence.name|lower as fname %}
+                                {% if '.jpg' in fname or '.jpeg' in fname or '.png' in fname or '.gif' in fname or '.webp' in fname %}
+                                    <div class="evidence-image-wrap">
+                                        <img src="{{ report.evidence.url }}"
+                                             alt="Evidence #{{ report.pk }}"
+                                             class="evidence-image">
+                                    </div>
+                                {% elif '.pdf' in fname %}
+                                    <a href="{{ report.evidence.url }}" target="_blank" class="evidence-link">📄 View PDF</a>
+                                {% else %}
+                                    <a href="{{ report.evidence.url }}" target="_blank" class="evidence-link">📁 Download File</a>
+                                {% endif %}
+                            {% endwith %}
+                        </div>
+                        {% else %}
+                        <p class="no-evidence">No evidence attached</p>
+                        {% endif %}
+
+                    </div>
+                    {% endfor %}
+                </div>
+            </form>
+
+            {% else %}
+            <div class="empty-state-sm">
+                <p>✅ No pending reports — queue is clear!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Recently Approved ───────────────────────────────────────────── -->
+        {% if approved %}
+        <div class="mod-block">
+            <div class="mod-block-header">
+                <h2>✅ Recently Approved
+                    <span class="count-badge approved">{{ approved|length }}</span>
+                </h2>
+            </div>
+            <div class="reports-mini-list">
+                {% for report in approved %}
+                <div class="mini-row">
+                    <span class="report-id">#{{ report.pk }}</span>
+                    <span class="entity-value">{{ report.entity.entity_value }}</span>
+                    <span class="risk-score">Score: {{ report.entity.risk_score }}/100</span>
+                    <span class="reporter-name">{{ report.reporter.username|default:"Anon" }}</span>
+                    <span class="report-date">{{ report.created_at|date:"M d" }}</span>
+                    {% if report.evidence %}
+                    <a href="{{ report.evidence.url }}" target="_blank" class="evidence-icon-link">📎</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Recently Rejected ───────────────────────────────────────────── -->
+        {% if rejected %}
+        <div class="mod-block">
+            <div class="mod-block-header">
+                <h2>✗ Recently Rejected
+                    <span class="count-badge rejected">{{ rejected|length }}</span>
+                </h2>
+            </div>
+            <div class="reports-mini-list">
+                {% for report in rejected %}
+                <div class="mini-row">
+                    <span class="report-id">#{{ report.pk }}</span>
+                    <span class="entity-value">{{ report.entity.entity_value }}</span>
+                    <span class="reporter-name">{{ report.reporter.username|default:"Anon" }}</span>
+                    <span class="report-date">{{ report.created_at|date:"M d" }}</span>
+                    {% if report.evidence %}
+                    <a href="{{ report.evidence.url }}" target="_blank" class="evidence-icon-link">📎</a>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+.mod-block { margin-bottom: 2.5rem; }
+.mod-block-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.mod-block-header h2 { margin: 0; font-size: 1.2rem; display: flex; align-items: center; gap: 0.75rem; }
+
+.count-badge {
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.count-badge.pending  { background: rgba(234,179,8,0.2); color: #fde047; }
+.count-badge.approved { background: rgba(34,197,94,0.2); color: #4ade80; }
+.count-badge.rejected { background: rgba(220,38,38,0.2); color: #f87171; }
+
+.bulk-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.07);
+}
+.select-all-wrap { display: flex; align-items: center; gap: 0.4rem; color: #94a3b8; font-size: 0.9rem; cursor: pointer; }
+.btn-approve-bulk, .btn-reject-bulk {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+.btn-approve-bulk { background: rgba(34,197,94,0.2);  color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.btn-reject-bulk  { background: rgba(220,38,38,0.15); color: #f87171; border: 1px solid rgba(220,38,38,0.3); }
+.btn-approve-bulk:hover { background: rgba(34,197,94,0.35); }
+.btn-reject-bulk:hover  { background: rgba(220,38,38,0.3); }
+
+.mod-card {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.07);
+    border-left: 3px solid #eab308;
+}
+.mod-card-top {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.75rem;
+}
+.mod-meta { display: flex; align-items: center; gap: 0.6rem; flex: 1; flex-wrap: wrap; }
+.mod-actions { display: flex; gap: 0.5rem; margin-left: auto; }
+
+.report-id   { font-family: monospace; color: #06B6D4; font-weight: 700; font-size: 0.9rem; }
+.entity-type-badge {
+    background: rgba(6,182,212,0.12);
+    color: #06B6D4;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.entity-value { color: #e2e8f0; font-weight: 600; word-break: break-all; }
+
+.reporter-info { color: #64748b; font-size: 0.82rem; margin-bottom: 0.6rem; display: flex; gap: 1rem; }
+.mod-description { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; margin: 0 0 0.75rem; }
+
+.btn-approve, .btn-reject {
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+}
+.btn-approve { background: rgba(34,197,94,0.2);  color: #4ade80; border: 1px solid rgba(34,197,94,0.4); }
+.btn-reject  { background: rgba(220,38,38,0.15); color: #f87171; border: 1px solid rgba(220,38,38,0.3); }
+.btn-approve:hover { background: rgba(34,197,94,0.35); }
+.btn-reject:hover  { background: rgba(220,38,38,0.3); }
+
+.mod-evidence { margin-top: 0.5rem; }
+.evidence-label { font-size: 0.8rem; color: #64748b; }
+.evidence-image-wrap { margin-top: 0.5rem; border-radius: 8px; overflow: hidden; max-width: 420px; border: 1px solid rgba(255,255,255,0.1); }
+.evidence-image { width: 100%; display: block; max-height: 260px; object-fit: cover; }
+.evidence-link {
+    display: inline-block;
+    margin-top: 0.4rem;
+    color: #06B6D4;
+    font-size: 0.85rem;
+    text-decoration: none;
+    padding: 4px 12px;
+    border: 1px solid rgba(6,182,212,0.3);
+    border-radius: 6px;
+}
+.no-evidence { color: #475569; font-size: 0.8rem; font-style: italic; margin: 0.25rem 0 0; }
+
+/* Mini list for approved/rejected */
+.reports-mini-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.mini-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(255,255,255,0.02);
+    border-radius: 6px;
+    font-size: 0.85rem;
+    flex-wrap: wrap;
+}
+.reporter-name { color: #64748b; }
+.report-date   { color: #475569; margin-left: auto; }
+.risk-score    { color: #06B6D4; font-weight: 600; }
+.evidence-icon-link { text-decoration: none; font-size: 1rem; }
+
+.empty-state-sm {
+    padding: 2rem;
+    text-align: center;
+    color: #4ade80;
+    background: rgba(34,197,94,0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(34,197,94,0.15);
+}
+
+.mb-lg { margin-bottom: 1.5rem; }
+</style>
+
+<script>
+// Select-all checkbox
+document.getElementById('selectAll')?.addEventListener('change', function() {
+    document.querySelectorAll('.report-checkbox').forEach(cb => cb.checked = this.checked);
+});
+</script>
+{% endblock %}

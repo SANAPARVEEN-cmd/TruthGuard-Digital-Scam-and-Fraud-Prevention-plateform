@@ -1,6 +1,7 @@
 /* ============================================
    Dashboard Stylesheet
-   Professional Dashboard Layout & Components
+   Premium Dashboard Layout & Components
+   (CSS-only styling; no HTML/JS changes)
    ============================================ */
 
 /* ============================================
@@ -14,13 +15,28 @@
     background: var(--bg-primary);
 }
 
+/* Shared spacing polish for dashboard templates */
+.dashboard-page {
+    padding-bottom: var(--spacing-3xl);
+}
+
+/* Make the dashboard feel more “app-like” with consistent inner spacing */
+.dashboard-main {
+    padding: calc(var(--spacing-lg) + 4px);
+}
+
+/* Slightly better page header rhythm */
+.page-header {
+    margin-bottom: var(--spacing-2xl);
+}
+
 /* ============================================
    Sidebar Navigation
    ============================================ */
 
 .dashboard-sidebar {
-    background: rgba(15, 23, 42, 0.6);
-    border-right: 1px solid var(--border-color);
+    background: rgba(15, 23, 42, 0.55);
+    border-right: 1px solid rgba(255, 255, 255, 0.09);
     padding: var(--spacing-lg);
     position: sticky;
     top: 80px;
@@ -28,18 +44,43 @@
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    backdrop-filter: blur(14px);
+}
+
+/* Subtle “security” edge highlight */
+.dashboard-sidebar::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 80px;
+    width: 1px;
+    height: calc(100vh - 80px);
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 229, 255, 0.0),
+        rgba(0, 229, 255, 0.25),
+        rgba(0, 229, 255, 0.0)
+    );
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+/* Ensure stacking context for the pseudo-element */
+.dashboard-sidebar {
+    position: sticky;
 }
 
 .sidebar-header {
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-lg);
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sidebar-header h2 {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
     margin: 0;
     color: var(--accent);
+    letter-spacing: 0.2px;
 }
 
 .sidebar-nav {
@@ -53,50 +94,76 @@
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
-    padding: var(--spacing-md) var(--spacing-lg);
+    padding: 12px var(--spacing-lg);
     background: transparent;
-    border: none;
+    border: 1px solid transparent;
     color: var(--text-muted);
     cursor: pointer;
     border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
+    transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast), color var(--transition-fast);
     text-align: left;
     font-size: 0.95rem;
     text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.sidebar-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,255,0.10), rgba(108,99,255,0.05));
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+    pointer-events: none;
 }
 
 .sidebar-link:hover {
-    background: rgba(6, 182, 212, 0.1);
+    background: rgba(6, 182, 212, 0.10);
+    border-color: rgba(6, 182, 212, 0.22);
     color: var(--accent);
     transform: translateX(4px);
 }
 
+.sidebar-link:hover::after {
+    opacity: 1;
+}
+
 .sidebar-link.active {
-    background: rgba(6, 182, 212, 0.2);
+    background: rgba(6, 182, 212, 0.18);
+    border-color: rgba(0, 229, 255, 0.35);
     color: var(--accent);
-    border-left: 3px solid var(--accent);
     padding-left: calc(var(--spacing-lg) - 3px);
+    border-left: 3px solid rgba(0, 229, 255, 0.95);
+    box-shadow: 0 0 24px rgba(6, 182, 212, 0.10);
 }
 
 .nav-icon {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.sidebar-link.active .nav-icon {
+    background: rgba(0, 229, 255, 0.12);
+    border-color: rgba(0, 229, 255, 0.25);
 }
 
 .nav-text {
-    font-weight: 500;
+    font-weight: 600;
+    letter-spacing: 0.15px;
 }
 
 .sidebar-footer {
     margin-top: auto;
     padding-top: var(--spacing-lg);
-    border-top: 1px solid var(--border-color);
-}
-
-.storage-info {
-    background: rgba(6, 182, 212, 0.1);
-    border: 1px solid rgba(6, 182, 212, 0.2);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-md);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .storage-label {

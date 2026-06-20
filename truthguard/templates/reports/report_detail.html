@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}Report #{{ report.pk }} - TruthGuard{% endblock %}
+{% block content %}
+<section class="page-header">
+  <div class="container">
+    <h1>Report #{{ report.pk }}</h1>
+    <a href="{% url 'my_reports' %}">← Back to My Reports</a>
+  </div>
+</section>
+
+<section class="report-section">
+  <div class="container">
+    <div class="glass-card" style="padding:2rem">
+
+      <div style="margin-bottom:1rem">
+        <strong>Entity:</strong> {{ report.entity.entity_value }}<br>
+        <strong>Type:</strong> {{ report.entity.get_entity_type_display }}<br>
+        <strong>Status:</strong>
+        {% if report.report_status == 'approved' %}
+          <span style="color:#4ade80">✓ Approved</span>
+        {% elif report.report_status == 'rejected' %}
+          <span style="color:#f87171">✗ Rejected</span>
+        {% else %}
+          <span style="color:#fde047">⏳ Pending</span>
+        {% endif %}<br>
+        <strong>Submitted:</strong> {{ report.created_at|date:"M d, Y H:i" }}
+      </div>
+
+      <div style="margin-bottom:1rem">
+        <strong>Description:</strong>
+        <p style="color:#94a3b8">{{ report.description }}</p>
+      </div>
+
+      {% if report.evidence %}
+      <div>
+        <strong>Evidence:</strong><br>
+        {% with report.evidence.name|lower as fname %}
+          {% if '.jpg' in fname or '.jpeg' in fname or '.png' in fname or '.webp' in fname %}
+            <img src="{{ report.evidence.url }}" style="max-width:500px;margin-top:0.5rem;border-radius:8px">
+          {% else %}
+            <a href="{{ report.evidence.url }}" target="_blank" style="color:#06B6D4">
+              📎 View Evidence File
+            </a>
+          {% endif %}
+        {% endwith %}
+      </div>
+      {% endif %}
+
+      {% if report.report_status == 'approved' %}
+      <div style="margin-top:1.5rem;padding:1rem;background:rgba(6,182,212,0.08);border-radius:8px">
+        <strong>Risk Score:</strong>
+        <span style="color:#06B6D4;font-size:1.3rem;font-weight:700">
+          {{ report.entity.risk_score }}/100
+        </span>
+        &nbsp;—&nbsp;
+        <span>{{ report.entity.threat_level|upper }}</span>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</section>
+{% endblock %}
