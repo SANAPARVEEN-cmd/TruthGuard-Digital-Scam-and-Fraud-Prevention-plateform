@@ -102,4 +102,18 @@ CSRF_COOKIE_HTTPONLY = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
+# ── Email Configuration ───────────────────────────────────────────────────────
+# Development: prints emails to terminal (no real sending)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# ── When you go live, replace above with this (Gmail example): ────────────────
+# EMAIL_BACKEND    = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST       = 'smtp.gmail.com'
+# EMAIL_PORT       = 587
+# EMAIL_USE_TLS    = True
+# EMAIL_HOST_USER  = 'your-email@gmail.com'
+# EMAIL_HOST_PASSWORD = 'your-app-password'  # Gmail App Password, not login password
+# DEFAULT_FROM_EMAIL = 'TruthGuard <your-email@gmail.com>'
+
+# Password reset link settings
+PASSWORD_RESET_TIMEOUT = 86400  # link expires in 24 hours (in seconds)

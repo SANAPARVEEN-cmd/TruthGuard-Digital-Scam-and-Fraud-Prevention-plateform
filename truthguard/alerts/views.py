@@ -1,6 +1,7 @@
 from django.db.models import Q
 from django.shortcuts import render
 
+
 from .models import Alert
 
 
@@ -38,3 +39,5 @@ def alerts_list(request):
         'severity_choices': Alert.SEVERITY_CHOICES,
         'category_choices': Alert.CATEGORY_CHOICES,
     })
+
+

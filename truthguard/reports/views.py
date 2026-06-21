@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 from django.core.paginator import Paginator
+from alerts.service import create_or_update_alert
 
 from analytics.services.risk_engine import risk_engine
 from reports.forms import ReportForm
@@ -105,6 +106,11 @@ def moderation_queue(request):
 
 
 # ── 6. Moderator: approve a single report ────────────────────────────────────
+# ── ADD this import at the top of reports/views.py ───────────────────────────
+# from alerts.services import create_or_update_alert, deactivate_alerts_for_entity
+
+
+# ── REPLACE your approve_report view with this ────────────────────────────────
 @login_required
 @user_passes_test(is_moderator, login_url='home')
 @require_http_methods(['POST'])
@@ -120,12 +126,18 @@ def approve_report(request, pk):
         profile.reputation_score = min(getattr(profile, 'reputation_score', 0) + 5, 100)
         profile.save()
 
+    # Recalculate risk score
     risk_engine.update_entity(report.entity)
-    messages.success(request, f'Report #{pk} approved. Risk score updated.')
+
+    # ✅ Auto-create or update alert based on new risk score
+    from alerts.service import create_or_update_alert
+    create_or_update_alert(report.entity, report=report)
+
+    messages.success(request, f'Report #{pk} approved. Risk score and alerts updated.')
     return redirect('moderation_queue')
 
 
-# ── 7. Moderator: reject a single report ─────────────────────────────────────
+# ── REPLACE your reject_report view with this ────────────────────────────────
 @login_required
 @user_passes_test(is_moderator, login_url='home')
 @require_http_methods(['POST'])
@@ -133,18 +145,26 @@ def reject_report(request, pk):
     report = get_object_or_404(Report, pk=pk, report_status='pending')
     report.report_status = 'rejected'
     report.save()
+
+    # Recalculate risk — may lower score if this was the only report
     risk_engine.update_entity(report.entity)
-    messages.warning(request, f'Report #{pk} rejected.')
+
+    # ✅ Deactivate alert if entity is now safe after rejection
+    from alerts.service import create_or_update_alert
+    create_or_update_alert(report.entity)
+
+    messages.warning(request, f'Report #{pk} rejected. Alert status updated.')
     return redirect('moderation_queue')
 
 
-# ── 8. Moderator: bulk action from queue ─────────────────────────────────────
+# ── REPLACE your bulk_moderate view with this ────────────────────────────────
 @login_required
 @user_passes_test(is_moderator, login_url='home')
 @require_http_methods(['POST'])
 def bulk_moderate(request):
-    action     = request.POST.get('action')          # 'approve' or 'reject'
-    report_ids = request.POST.getlist('report_ids')  # list of PKs
+    from alerts.service import create_or_update_alert
+    action     = request.POST.get('action')
+    report_ids = request.POST.getlist('report_ids')
 
     if not report_ids:
         messages.warning(request, 'No reports selected.')
@@ -163,16 +183,18 @@ def bulk_moderate(request):
                 profile.reputation_score = min(getattr(profile, 'reputation_score', 0) + 5, 100)
                 profile.save()
             risk_engine.update_entity(report.entity)
+            # ✅ Auto-create/update alert
+            create_or_update_alert(report.entity, report=report)
             count += 1
-        messages.success(request, f'{count} report(s) approved.')
+        messages.success(request, f'{count} report(s) approved. Alerts updated.')
 
     elif action == 'reject':
-        count = reports.count()
         for report in reports:
             report.report_status = 'rejected'
             report.save()
             risk_engine.update_entity(report.entity)
-        messages.warning(request, f'{count} report(s) rejected.')
+            create_or_update_alert(report.entity)
+        messages.warning(request, f'{reports.count()} report(s) rejected.')
     else:
         messages.error(request, 'Invalid action.')
 

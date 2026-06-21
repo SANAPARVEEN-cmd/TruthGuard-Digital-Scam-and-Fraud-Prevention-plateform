@@ -1,6 +1,126 @@
-{% extends 'base.html' %}
 
-{% block title %}Entity Details - TruthGuard{% endblock %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ entity.entity_value }} - TruthGuard{% endblock %}
+
+{% block extra_css %}
+<style>
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.result-card { padding: 1.5rem; border-radius: 12px; }
+.result-card.full-width { grid-column: 1 / -1; }
+
+/* Risk Meter */
+.risk-meter-card { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.risk-meter { position: relative; width: 180px; height: 180px; margin: 1rem auto; }
+.risk-circle { width: 100%; height: 100%; transform: rotate(-90deg); }
+.risk-bg { fill: none; stroke: rgba(255,255,255,0.07); stroke-width: 10; }
+.risk-progress {
+    fill: none;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 339.29;
+    stroke-dashoffset: 339.29;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+.risk-progress.threat-safe     { stroke: #22c55e; }
+.risk-progress.threat-low      { stroke: #86efac; }
+.risk-progress.threat-medium   { stroke: #eab308; }
+.risk-progress.threat-high     { stroke: #f97316; }
+.risk-progress.threat-critical { stroke: #dc2626; }
+
+.risk-score-text {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; line-height: 1;
+}
+.score-number { display: block; font-size: 2.8rem; font-weight: 800; color: #e2e8f0; }
+.score-label  { font-size: 0.9rem; color: #94a3b8; }
+
+/* Score bar */
+.risk-bar-wrap { width: 100%; margin-top: 0.75rem; max-width: 180px; }
+.risk-bar-track { width: 100%; height: 8px; background: rgba(255,255,255,0.07); border-radius: 999px; overflow: hidden; }
+.risk-bar-fill  { height: 100%; border-radius: 999px; transition: width 1s ease; }
+.risk-bar-fill.safe     { background: linear-gradient(90deg,#22c55e,#4ade80); }
+.risk-bar-fill.low      { background: linear-gradient(90deg,#86efac,#bbf7d0); }
+.risk-bar-fill.medium   { background: linear-gradient(90deg,#eab308,#fde047); }
+.risk-bar-fill.high     { background: linear-gradient(90deg,#f97316,#fb923c); }
+.risk-bar-fill.critical { background: linear-gradient(90deg,#dc2626,#ef4444); }
+
+/* Threat badge */
+.threat-badge {
+    display: inline-block; padding: 6px 18px; border-radius: 9999px;
+    font-size: 0.85rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.5px; margin-top: 1rem;
+}
+.threat-badge.safe     { background: rgba(34,197,94,0.15);  color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.threat-badge.low      { background: rgba(134,239,172,0.15);color: #86efac; border: 1px solid rgba(134,239,172,0.3); }
+.threat-badge.medium   { background: rgba(234,179,8,0.15);  color: #fde047; border: 1px solid rgba(234,179,8,0.3); }
+.threat-badge.high     { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
+.threat-badge.critical { background: rgba(220,38,38,0.15);  color: #f87171; border: 1px solid rgba(220,38,38,0.3); }
+
+/* Entity info */
+.entity-info { display: flex; flex-direction: column; gap: 0.75rem; }
+.info-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.9rem;
+}
+.info-row span { color: #94a3b8; }
+.info-row strong { color: #e2e8f0; word-break: break-all; text-align: right; max-width: 60%; }
+
+/* Explanation */
+.explanation-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.explanation-list li {
+    padding: 0.6rem 1rem;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid #06b6d4;
+    border-radius: 0 6px 6px 0;
+    color: #94a3b8; font-size: 0.9rem;
+}
+
+/* Stats row */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+.stat-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+}
+.stat-box .stat-val {
+    display: block; font-size: 1.8rem; font-weight: 800; color: #06b6d4;
+}
+.stat-box .stat-lbl { font-size: 0.8rem; color: #64748b; }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .results-grid { grid-template-columns: 1fr; }
+    .result-card.full-width { grid-column: 1; }
+    .risk-meter { width: 150px; height: 150px; }
+    .score-number { font-size: 2.2rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+    .results-grid { gap: 1rem; }
+    .risk-meter { width: 130px; height: 130px; }
+    .score-number { font-size: 1.9rem; }
+    .info-row { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    .info-row strong { text-align: left; max-width: 100%; }
+    .stats-row { grid-template-columns: 1fr; }
+}
+</style>
+{% endblock %}
 
 {% block content %}
 <section class="page-header">
@@ -12,26 +132,118 @@
 
 <section class="results-section">
     <div class="container">
+
+        <!-- Quick stats row -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <span class="stat-val">{{ entity.risk_score }}</span>
+                <span class="stat-lbl">Risk Score</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-val">{{ entity.report_count }}</span>
+                <span class="stat-lbl">Reports</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-val threat-{{ entity.threat_level }}"
+                      style="font-size:1rem; padding-top:0.4rem; display:block;">
+                    {{ entity.get_threat_level_display|upper }}
+                </span>
+                <span class="stat-lbl">Threat Level</span>
+            </div>
+        </div>
+
         <div class="results-grid">
+
+            <!-- Entity Info -->
+            <div class="result-card glass-card">
+                <h3>Entity Information</h3>
+                <div class="entity-info">
+                    <div class="info-row"><span>Type</span><strong>{{ entity.get_entity_type_display }}</strong></div>
+                    <div class="info-row"><span>Value</span><strong>{{ entity.entity_value }}</strong></div>
+                    <div class="info-row"><span>Status</span><strong>{{ entity.get_status_display }}</strong></div>
+                    <div class="info-row"><span>First Seen</span><strong>{{ entity.created_at|date:"M d, Y" }}</strong></div>
+                    <div class="info-row"><span>Last Updated</span><strong>{{ entity.updated_at|timesince }} ago</strong></div>
+                </div>
+            </div>
+
+            <!-- Risk Meter -->
             <div class="result-card glass-card risk-meter-card">
                 <h3>Risk Score</h3>
                 <div class="risk-meter" data-score="{{ entity.risk_score }}">
+                    <svg class="risk-circle" viewBox="0 0 120 120">
+                        <circle class="risk-bg" cx="60" cy="60" r="54"/>
+                        <circle class="risk-progress threat-{{ entity.threat_level }}"
+                                cx="60" cy="60" r="54"
+                                id="riskProgressCircle"
+                                data-score="{{ entity.risk_score }}"/>
+                    </svg>
                     <div class="risk-score-text">
-                        <span class="score-number">{{ entity.risk_score }}</span><span class="score-label">/100</span>
+                        <span class="score-number" id="scoreNumber">0</span>
+                        <span class="score-label">/ 100</span>
                     </div>
                 </div>
-                <div class="threat-badge {{ entity.threat_level }}">{{ entity.get_threat_level_display }}</div>
+
+                <div class="risk-bar-wrap">
+                    <div class="risk-bar-track">
+                        <div class="risk-bar-fill {{ entity.threat_level }}"
+                             id="riskBarFill"
+                             style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <div class="threat-badge {{ entity.threat_level }}">
+                    {{ entity.get_threat_level_display }} Threat
+                </div>
             </div>
+
+            <!-- Risk Explanation -->
             <div class="result-card glass-card full-width">
-                <h3>Explanation</h3>
+                <h3>Risk Explanation</h3>
                 <ul class="explanation-list">
                     {% for reason in risk_result.explanation %}
                     <li>{{ reason }}</li>
+                    {% empty %}
+                    <li>No specific threat indicators found.</li>
                     {% endfor %}
                 </ul>
             </div>
+
         </div>
-        <a href="{% url 'search' %}" class="btn-secondary">← Back to Search</a>
+
+        <!-- Actions -->
+        <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1rem;">
+            <a href="{% url 'report' %}" class="btn-primary">🚨 Report This Entity</a>
+            <a href="{% url 'search' %}" class="btn-secondary">← Back to Search</a>
+        </div>
+
     </div>
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const circle        = document.getElementById('riskProgressCircle');
+    const scoreEl       = document.getElementById('scoreNumber');
+    const barFill       = document.getElementById('riskBarFill');
+    const score         = parseInt(circle?.dataset.score || '0', 10);
+    const circumference = 2 * Math.PI * 54;
+
+    if (circle) {
+        setTimeout(() => {
+            circle.style.strokeDashoffset = circumference - (score / 100) * circumference;
+        }, 100);
+    }
+    if (barFill) {
+        setTimeout(() => { barFill.style.width = score + '%'; }, 100);
+    }
+    if (scoreEl) {
+        let current = 0;
+        const step  = Math.ceil(score / 50);
+        const timer = setInterval(() => {
+            current = Math.min(current + step, score);
+            scoreEl.textContent = current;
+            if (current >= score) clearInterval(timer);
+        }, 20);
+    }
+});
+</script>
 {% endblock %}
