@@ -3,65 +3,124 @@
 {% block title %}Register - TruthGuard{% endblock %}
 
 {% block content %}
+<div class="auth-page">
 
-<section class="auth-section">
-    <div class="auth-container glass-card fade-in">
+    <div class="auth-container reverse">
 
-        <!-- Header -->
-        <div class="auth-header">
-            <h1>Create Your Account</h1>
-            <p>Join TruthGuard and stay protected from online scams.</p>
-        </div>
+        <!-- Branding Section -->
+        <section class="auth-branding">
 
-        <!-- Registration Form -->
-        <form method="POST" class="auth-form" novalidate>
-            {% csrf_token %}
+            <div class="branding-content">
 
-            {% for field in form %}
-            <div class="form-group">
+                <h1>Join TruthGuard</h1>
 
-                <label for="{{ field.id_for_label }}" class="form-label">
-                    {{ field.label }}
-                </label>
+                <p>
+                    Create your account and start protecting yourself from scams,
+                    fake links, and online threats in real time.
+                </p>
 
-                {{ field }}
+                <div class="benefits-list">
 
-                {% if field.errors %}
-                    <div class="form-error">
-                        {% for error in field.errors %}
-                            <p>{{ error }}</p>
-                        {% endfor %}
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🚨</div>
+                        <div>
+                            <h3>Threat Detection</h3>
+                            <p>Detect scams before they affect you.</p>
+                        </div>
                     </div>
-                {% endif %}
 
-                <!-- Password help text removed intentionally -->
+                    <div class="benefit-item">
+                        <div class="benefit-icon">📊</div>
+                        <div>
+                            <h3>Smart Dashboard</h3>
+                            <p>Track your activity and risk history.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item">
+                        <div class="benefit-icon">🛡️</div>
+                        <div>
+                            <h3>Full Protection</h3>
+                            <p>AI-powered safety across all platforms.</p>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
-            {% endfor %}
 
-            {% if form.non_field_errors %}
-                <div class="form-error">
-                    {% for error in form.non_field_errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
+        </section>
+
+        <!-- Registration Form -->
+        <section class="auth-form-container">
+
+            <div class="form-card">
+
+                <div class="form-header">
+                    <h2>Create Account</h2>
+                    <p>Fill in your details to get started.</p>
                 </div>
-            {% endif %}
 
-            <button type="submit" class="btn-primary btn-full ripple">
-                Create Account
-            </button>
+                <form method="post" class="auth-form" novalidate>
 
-        </form>
+                    {% csrf_token %}
 
-        <!-- Footer -->
-        <div class="auth-links">
-            <p>
-                Already have an account?
-                <a href="{% url 'login' %}">Sign In</a>
-            </p>
-        </div>
+                    {% if form.non_field_errors %}
+                    <div class="form-error">
+                        {{ form.non_field_errors.0 }}
+                    </div>
+                    {% endif %}
+
+                    {% for field in form %}
+
+                    <div class="form-group">
+
+                        <label
+                            for="{{ field.id_for_label }}"
+                            class="form-label">
+
+                            {{ field.label }}
+
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.errors %}
+                        <div class="form-error">
+                            {{ field.errors.0 }}
+                        </div>
+                        {% endif %}
+
+                    </div>
+
+                    {% endfor %}
+
+                    <button
+                        type="submit"
+                        class="btn-primary btn-large btn-block">
+
+                        Create Account
+
+                    </button>
+
+                </form>
+
+                <div class="form-footer">
+
+                    <p>
+                        Already have an account?
+                        <a href="{% url 'login' %}" class="link-text">
+                            Sign In
+                        </a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
 
     </div>
-</section>
 
+</div>
 {% endblock %}

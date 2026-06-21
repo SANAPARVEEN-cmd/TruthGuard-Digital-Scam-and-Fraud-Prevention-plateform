@@ -37,7 +37,7 @@ def register_view(request):
         messages.success(request, 'Account created successfully. Welcome to TruthGuard!')
         return redirect('home')
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'accounts/register.html', {'form': form})
 
 
 def logout_view(request):
